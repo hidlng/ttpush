@@ -51,7 +51,7 @@ module.exports = function( _server ) {
 
 			
 			var returnArray = [];
-			await redisClient.georadius("userposition", lng, lat, 500, "m", async function (err, data) {
+			await redisClient.georadius("userposition", lng, lat, 150, "m", async function (err, data) {
 				console.log( data );
 				if( data != undefined && data.length > 0 ) {
 					for( var i = 0; i < data.length; i++ ) {
