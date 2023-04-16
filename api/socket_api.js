@@ -63,14 +63,24 @@ module.exports = function( _server ) {
 
 						console.log( my_user_id + ' / ' + userid );
 						if( my_user_id != userid ) {
-							if( newUserObj != null && newUserObj != undefined ) {
-								console.log(newUserObj);
-							}
+
 							var user = await redisClient.v4.get(`user:${userid}`); 
 							var userJson = await JSON.parse(user);
 							var dis_user_oid = userJson.user_id;
 							var dis_user_nickname = userJson.nickname;
 							var dis_pid = userJson.pid;
+
+							if( newUserObj != null && newUserObj != undefined ) {
+								console.log("***********************");
+								console.log("***********************");
+								console.log("***********************");
+								console.log(newUserObj);
+								console.log("***********************");
+								console.log("***********************");
+								console.log("***********************");
+								//fcm_common.sendFcm(dis_pid, nickname, "3");
+							}
+
 
 							await redisClient.geodist("userposition", userid, my_user_id, "m", async function (err, data) {
 								if (err) return 0;
