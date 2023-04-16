@@ -20,14 +20,14 @@ module.exports = function( _server ) {
 			var lng = "";
 			var lat  = "";
 			var nickname = "";
-			var user_id =  "";
+			var my_user_id =  "";
 			var carnumber  = "";
 			var pid = "";
 			
 			if( result.lng != undefined ) { lng =  result.lng }
 			if( result.lat != undefined ) { lat =  result.lat }
 			if( result.nickname != undefined ) { nickname =  result.nickname }
-			if( result.user_id != undefined ) { user_id =  result.user_id }
+			if( result.user_id != undefined ) { my_user_id =  result.user_id }
 			if( result.carnumber != undefined ) { carnumber =  result.carnumber }
 			if( result.pid != undefined ) { pid =  result.pid }
 			
@@ -40,15 +40,15 @@ module.exports = function( _server ) {
 			var preDate = new Date(prefive);
 			var intPreDate = parseInt(preDate.YYYYMMDDHHMMSS());
 			
-			var newUserObj = await redisClient.v4.get(`user:${result.user_id}`); 
+			var newUserObj = await redisClient.v4.get(`user:${my_user_id}`); 
 			console.log(newUserObj);
 			
-			redisClient.v4.set(`user:${result.user_id}`, JSON.stringify(result)); 
-			redisClient.v4.expire(`user:${result.user_id}`, 5*60 );
+			redisClient.v4.set(`user:${my_user_id}`, JSON.stringify(result)); 
+			redisClient.v4.expire(`user:${my_user_id}`, 5*60 );
 
-			await redisClient.geoadd("userposition", result.lng, result.lat, result.user_id);
+			await redisClient.geoadd("userposition", lng, lat, my_user_id);
 			// geo.addLocation(
-			// 	result.user_id, {latitude:  result.lat, longitude: result.lng},
+			// 	my_user_id, {latitude:  result.lat, longitude: result.lng},
 			// 	(error, reply) => {
 			// 		if (error) console.error(error);
 			// 		else console.log('added location: ', reply);
@@ -67,7 +67,7 @@ module.exports = function( _server ) {
 						var d = keys[i];
 						var userid = d.substring(5);
 						
-						if( result.user_id != userid ) {
+						if( my_user_id != userid ) {
 							var user = await redisClient.v4.get(`user:${user_id}`); 
 							var userJson = await JSON.parse(user);
 							
@@ -83,7 +83,7 @@ module.exports = function( _server ) {
 							console.log("************************************************");
 							var dis_user_oid = userJson.user_id;
 
-							await redisClient.geodist("userposition", userid, result.user_id, "m", async function (err, data) {
+							await redisClient.geodist("userposition", userid, my_user_id, "m", async function (err, data) {
 								if (err) return 0;
 								console.log(data);
 								if( parseFloat(data) <= 500 ) {
