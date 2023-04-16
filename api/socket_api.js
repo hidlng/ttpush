@@ -75,7 +75,7 @@ module.exports = function( _server ) {
 							}
 
 
-							await redisClient.geodist("userposition", userid, my_user_id, "m", async function (err, data) {
+							await redisClient.georadius("userposition", lng, lat, 500,"m", async function (err, data) {
 								if (err) return 0;
 								console.log('************************');
 								console.log('************************');
