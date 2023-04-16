@@ -69,19 +69,19 @@ module.exports = function( _server ) {
 						
 						if( result.user_id != userid ) {
 							var user = await redisClient.v4.get(`user:${user_id}`); 
-							var d = await JSON.parse(user);
+							var userJson = await JSON.parse(user);
 							
 							console.log("************************************************");
 							console.log("************************************************");
 							console.log("************************************************");
 							console.log("************************************************");
-							console.log(d);
+							console.log(userJson);
 							console.log("************************************************");
 							console.log("************************************************");
 							console.log("************************************************");
 							console.log("************************************************");
 							console.log("************************************************");
-							var dis_user_oid = d.user_id;
+							var dis_user_oid = userJson.user_id;
 
 							await redisClient.geodist("userposition", userid, result.user_id, "m", async function (err, data) {
 								if (err) return 0;
@@ -104,11 +104,13 @@ module.exports = function( _server ) {
 							});
 								
 							var dataObj = new Object();
-							dataObj.lng  = d.lng;
-							dataObj.lat  = d.lat;
-							dataObj.nickname  = d.nickname;
-							console.log(dataObj);
+							dataObj.lng  = userJson.lng;
+							dataObj.lat  = userJson.lat;
+							dataObj.nickname  = userJson.nickname;
 							returnArray.push(dataObj);
+
+							console.log("savle data");
+							console.log(dataObj);
 						}
 
 						
