@@ -53,10 +53,10 @@ module.exports = function( _server ) {
 			const options = { upsert: true, new: true };
 
 			//data insert
-			var returnInt = RealLog.findOneAndUpdate(query, update, {upsert: true}, function(err, doc) {
-				if (err) return -1;
-				return 1;
-			});
+			// var returnInt = RealLog.findOneAndUpdate(query, update, {upsert: true}, function(err, doc) {
+			// 	if (err) return -1;
+			// 	return 1;
+			// });
 			
 			//collection drop 
 			//mongoose.connection.collection('real_log').drop()

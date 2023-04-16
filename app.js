@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
-var mongoose = require('mongoose');
 const cron = require('node-cron');
 
 global.serverPushArray = new Array();
@@ -39,21 +38,8 @@ app.use('/users', usersRouter);
 app.use('/test_api', test_api);
 app.use('/f_api', f_api);
 
-//app.use('/ws', socket_api);
-
 //push init
 fcm_common.initFcm();
-
-cron.schedule('40 * * * *', function () {
-  console.log('매 40분 마다 작업 실행');
-  //mongoose.connection.collection('real_log').drop();
-});
-
-// mongoose
-// .connect('mongodb://127.0.0.1:27017',{useNewUrlParser : true, useUnifiedTopology: true})
-// .then(() => console.log('Sucess'))
-// .catch(e => console.error(e));
-
 
 var server = http.createServer(app).listen(app.get('port'), '0.0.0.0');
 webSocketServer(server);

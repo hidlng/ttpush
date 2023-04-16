@@ -44,14 +44,11 @@ app.post('/fcm', function(req, res) {
 			res.json("ok");
         });
     });
-
-
-
 });
 
 
 app.get('/test', function(req, res) {
-		fcm_common.sendFcm('fUrbtLvHRDaSxl0fUTWuOX:APA91bFt90sUkR88T58PZ6SGhTo8J6AILJu7zyxpKdcxKKVwjqg9yNl9jnWBCJfXm2ObZUtTkWArRpVxFqSJlPNPvNtfcyj-5I2-D-M3nkgffZnAUY9yr7fi5FFPGSh5vCnHLxE75spB', '');
+		fcm_common.sendFcm('fpp-oGSmSMidexrXUixdzH:APA91bHAbeBdQeec8e2jG-L4muShlR0M0DDHqc5OZCQZLgNbb9_HNYZDH4ntW7P0HQ8xsI6VsoleTKT6B4YslOHRmRIAtgPDxV7sR3lWFsfdzd_ktudvVb52AVhukkGOZtRVoDWxAK5o', '');
 		res.json("ok");
 });
 
