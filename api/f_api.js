@@ -52,6 +52,24 @@ app.get('/test', function(req, res) {
 		res.json("ok");
 });
 
+app.get('/del', function(req, res) {
+	redisClient.keys('*user:*', async function (err, keys) {
+		if (err) {
+			console.log(err);
+			return;
+		};
+
+		if( keys != undefined && keys.length > 0 ) {
+
+			for( var i = 0; i < keys.length; i++ ) {
+				var d = keys[i];
+				redisClient.del(d);
+			}
+		}
+	});
+	res.json("ok");
+});
+
 function replaceAll(str, searchStr, replaceStr) {
    return str.split(searchStr).join(replaceStr);
 }

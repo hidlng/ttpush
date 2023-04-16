@@ -47,12 +47,6 @@ module.exports = function( _server ) {
 			redisClient.v4.expire(`user:${my_user_id}`, 5*60 );
 
 			await redisClient.geoadd("userposition", lng, lat, my_user_id);
-			// geo.addLocation(
-			// 	my_user_id, {latitude:  result.lat, longitude: result.lng},
-			// 	(error, reply) => {
-			// 		if (error) console.error(error);
-			// 		else console.log('added location: ', reply);
-			// 	});
 
 			redisClient.keys('*user:*', async function (err, keys) {
 				if (err) {
