@@ -74,7 +74,7 @@ module.exports = function( _server ) {
 								if (err) return 0;
 								console.log(data);
 
-								if( parseFloat(data) <= 0.5 ) {
+								if( parseFloat(data) <= 500 ) {
 									var sql = `
 										SELECT * FROM tanggodb.meetinfo WHERE toid = ${d.user_id} AND fromid = ${user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
 									`
