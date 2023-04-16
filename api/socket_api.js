@@ -44,7 +44,7 @@ module.exports = function( _server ) {
 
 			
 			redisClient.v4.set(`user:${result.user_id}`, JSON.stringify(result)); 
-			redisClient.v4.expire(`user:${result.user_id}`, 60*60 )
+			redisClient.v4.expire(`user:${result.user_id}`, 5*60 );
 
 			redisClient.geoadd("userposition", result.lng, result.lat, result.user_id);
 			// geo.addLocation(
