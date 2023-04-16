@@ -12,8 +12,7 @@ module.exports = function( _server ) {
 	var wss = new wsModule.Server({server:_server});
 	
 	wss.on('connection', async function( ws, req ) {
-		console.log('test');
-		ws.on('message', function(message){
+		ws.on('message', async function(message){
 			var result = JSON.parse(message.toString("utf8"));
 			
 			console.log(result.carnumber + ' / ' +	result.lng + ' / ' + result.lat + ' / ' + result.nickname + ' / ' + result.user_id + ' / ' + result.pid );
@@ -41,7 +40,7 @@ module.exports = function( _server ) {
 			var preDate = new Date(prefive);
 			var intPreDate = parseInt(preDate.YYYYMMDDHHMMSS());
 			
-			var newUserObj = redisClient.v4.get(`user:${result.user_id}`); 
+			var newUserObj = await redisClient.v4.get(`user:${result.user_id}`); 
 			console.log(newUserObj);
 			
 			redisClient.v4.set(`user:${result.user_id}`, JSON.stringify(result)); 
