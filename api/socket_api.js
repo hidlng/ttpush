@@ -38,19 +38,26 @@ module.exports = function( _server ) {
 			var preDate = new Date(prefive);
 			var intPreDate = parseInt(preDate.YYYYMMDDHHMMSS());
 			
-			//console.log( intNowDate + ' / '+ intPreDate );
+
 			
-			const query = { user_id: user_id };
-			const update = { $set: {
-					lng : lng,
-					lat : lat,
-					nickname : nickname,
-					user_id : user_id,
-					carnumber : carnumber,
-					pid : pid,
-					writetime : intNowDate
-			}};
-			const options = { upsert: true, new: true };
+			req.redisClient.v4.set(`user:${result.user_id}`, JSON.stringify(result)); 
+			req.redisClient.v4.expire(`user:${result.user_id}`, 60*60 )
+
+
+			//console.log( intNowDate + ' / '+ intPreDate );
+
+			
+			// const query = { user_id: user_id };
+			// const update = { $set: {
+			// 		lng : lng,
+			// 		lat : lat,
+			// 		nickname : nickname,
+			// 		user_id : user_id,
+			// 		carnumber : carnumber,
+			// 		pid : pid,
+			// 		writetime : intNowDate
+			// }};
+			// const options = { upsert: true, new: true };
 
 			//data insert
 			// var returnInt = RealLog.findOneAndUpdate(query, update, {upsert: true}, function(err, doc) {

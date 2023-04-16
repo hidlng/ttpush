@@ -37,6 +37,8 @@ var fcm_common = require('./fcm/push');
 
 var app = express();
 
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var f_api = require('./api/f_api');
@@ -55,6 +57,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+  req.redisClient = redisClient;
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
