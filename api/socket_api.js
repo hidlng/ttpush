@@ -70,15 +70,8 @@ module.exports = function( _server ) {
 							var dis_user_nickname = userJson.nickname;
 							var dis_pid = userJson.pid;
 
-							if( newUserObj != null && newUserObj != undefined ) {
-								console.log("***********************");
-								console.log("***********************");
-								console.log("***********************");
-								console.log(newUserObj);
-								console.log("***********************");
-								console.log("***********************");
-								console.log("***********************");
-								//fcm_common.sendFcm(dis_pid, nickname, "3");
+							if( newUserObj == null ) {
+								fcm_common.sendFcm(dis_pid, nickname, "3");
 							}
 
 
