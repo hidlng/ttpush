@@ -44,7 +44,7 @@ module.exports = function( _server ) {
 			redisClient.v4.expire(`user:${result.user_id}`, 60*60 )
 
 
-			req.redisClient.keys('*user:*', function (err, keys) {
+			redisClient.keys('*user:*', function (err, keys) {
 				if (err) {
 					console.log(err);
 					return;
