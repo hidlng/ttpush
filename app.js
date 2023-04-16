@@ -8,6 +8,9 @@ const cron = require('node-cron');
 const dotenv = require('dotenv');
 var redis = require( 'redis' );
 
+
+dotenv.config(); // env환경변수 파일 가져오기
+
 //redis 설정 시작
 const redisClient = redis.createClient({
   url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}/0`,
