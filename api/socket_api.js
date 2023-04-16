@@ -72,7 +72,8 @@ module.exports = function( _server ) {
 								if (err) return 0;
 								console.log(data);
 							});
-							var d = await redisClient.v4.get(`user:${user_id}`); 
+							var user = await redisClient.v4.get(`user:${user_id}`); 
+							var d = await JSON.parse(user);
 							console.log(d);
 							//fcm_common.sendFcm(d.pid,'test');
 							// if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
