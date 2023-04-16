@@ -49,10 +49,10 @@ cron.schedule('40 * * * *', function () {
   //mongoose.connection.collection('real_log').drop();
 });
 
-mongoose
-.connect('mongodb://127.0.0.1:27017',{useNewUrlParser : true, useUnifiedTopology: true})
-.then(() => console.log('Sucess'))
-.catch(e => console.error(e));
+// mongoose
+// .connect('mongodb://127.0.0.1:27017',{useNewUrlParser : true, useUnifiedTopology: true})
+// .then(() => console.log('Sucess'))
+// .catch(e => console.error(e));
 
 
 var server = http.createServer(app).listen(app.get('port'), '0.0.0.0');

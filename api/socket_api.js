@@ -61,44 +61,44 @@ module.exports = function( _server ) {
 			//collection drop 
 			//mongoose.connection.collection('real_log').drop()
 
-			RealLog
-			.find({ "user_id": { $ne: user_id }, "writetime" : {$gt : intPreDate}},{_id:0,lng:1,lat:1,nickname:1,user_id:1, writetime:1, pid : 1})
-			.then( async ( user ) => { 
-					var returnArray = [];;
-					if( user != undefined && user.length > 0 ) {
-						for( var i = 0; i < user.length; i++ ) {
-							var d = user[i];
-							//fcm_common.sendFcm(d.pid,'test');
-							if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
+			// RealLog
+			// .find({ "user_id": { $ne: user_id }, "writetime" : {$gt : intPreDate}},{_id:0,lng:1,lat:1,nickname:1,user_id:1, writetime:1, pid : 1})
+			// .then( async ( user ) => { 
+			// 		var returnArray = [];;
+			// 		if( user != undefined && user.length > 0 ) {
+			// 			for( var i = 0; i < user.length; i++ ) {
+			// 				var d = user[i];
+			// 				//fcm_common.sendFcm(d.pid,'test');
+			// 				if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
 
-								//500m
-								if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 0.5 ) {
-									var sql = `
-										SELECT * FROM tanggodb.meetinfo WHERE toid = ${d.user_id} AND fromid = ${user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
-									`
-									var result = await executeQuery(pool, sql, []);
-									if( result.length == 0 ) {
-										var insertsql = `
-											insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${d.user_id} , '${d.nickname}', ${user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
-										`
-										await executeQuery(pool, insertsql, []);
-										//send push
-										fcm_common.sendFcm(d.pid, nickname, "1");
-									}
-								}
+			// 					//500m
+			// 					if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 0.5 ) {
+			// 						var sql = `
+			// 							SELECT * FROM tanggodb.meetinfo WHERE toid = ${d.user_id} AND fromid = ${user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
+			// 						`
+			// 						var result = await executeQuery(pool, sql, []);
+			// 						if( result.length == 0 ) {
+			// 							var insertsql = `
+			// 								insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${d.user_id} , '${d.nickname}', ${user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
+			// 							`
+			// 							await executeQuery(pool, insertsql, []);
+			// 							//send push
+			// 							fcm_common.sendFcm(d.pid, nickname, "1");
+			// 						}
+			// 					}
 								
-								var dataObj = new Object();
-								dataObj.lng  = d.lng;
-								dataObj.lat  = d.lat;
-								dataObj.nickname  = d.nickname;
-								returnArray.push(dataObj);
-							}
-						}
-					}
+			// 					var dataObj = new Object();
+			// 					dataObj.lng  = d.lng;
+			// 					dataObj.lat  = d.lat;
+			// 					dataObj.nickname  = d.nickname;
+			// 					returnArray.push(dataObj);
+			// 				}
+			// 			}
+			// 		}
 					
-					ws.send(JSON.stringify(returnArray));
-			})
-			.catch((err) => { ws.send(JSON.stringify([])) } );
+			// 		ws.send(JSON.stringify(returnArray));
+			// })
+			// .catch((err) => { ws.send(JSON.stringify([])) } );
 		});
 		
 		ws.on('error', function(error){
