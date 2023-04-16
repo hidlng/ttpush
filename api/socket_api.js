@@ -65,33 +65,36 @@ module.exports = function( _server ) {
 					for( var i = 0; i < keys.length; i++ ) {
 						var d = keys[i];
 						var userid = d.substring(5);
-						console.log(d);
-						console.log(userid);
+						
 						if( result.user_id != userid ) {
-							await redisClient.geodist("userposition", userid, result.user_id, "m", function (err, data) {
-								if (err) return 0;
-								console.log(data);
-							});
 							var user = await redisClient.v4.get(`user:${user_id}`); 
 							var d = await JSON.parse(user);
-							console.log(d);
+
+							await redisClient.geodist("userposition", userid, result.user_id, "m", async function (err, data) {
+								if (err) return 0;
+								console.log(data);
+
+								if( parseFloat(data) <= 0.5 ) {
+									var sql = `
+										SELECT * FROM tanggodb.meetinfo WHERE toid = ${d.user_id} AND fromid = ${user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
+									`
+									var result = await executeQuery(pool, sql, []);
+									if( result.length == 0 ) {
+										var insertsql = `
+											insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${d.user_id} , '${d.nickname}', ${user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
+										`
+										await executeQuery(pool, insertsql, []);
+										//send push
+										fcm_common.sendFcm(d.pid, nickname, "1");
+									}
+								}
+
+							});
+
 							//fcm_common.sendFcm(d.pid,'test');
 							// if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
 							// 	//500m
-							// 	if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 0.5 ) {
-							// 		var sql = `
-							// 			SELECT * FROM tanggodb.meetinfo WHERE toid = ${d.user_id} AND fromid = ${user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
-							// 		`
-							// 		var result = await executeQuery(pool, sql, []);
-							// 		if( result.length == 0 ) {
-							// 			var insertsql = `
-							// 				insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${d.user_id} , '${d.nickname}', ${user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
-							// 			`
-							// 			await executeQuery(pool, insertsql, []);
-							// 			//send push
-							// 			fcm_common.sendFcm(d.pid, nickname, "1");
-							// 		}
-							// 	}
+								
 								
 								var dataObj = new Object();
 								dataObj.lng  = d.lng;
