@@ -63,6 +63,9 @@ module.exports = function( _server ) {
 
 						console.log( my_user_id + ' / ' + userid );
 						if( my_user_id != userid ) {
+							if( newUserObj != null && newUserObj != undefined ) {
+								console.log(newUserObj);
+							}
 							var user = await redisClient.v4.get(`user:${userid}`); 
 							var userJson = await JSON.parse(user);
 							var dis_user_oid = userJson.user_id;
