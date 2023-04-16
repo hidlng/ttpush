@@ -68,7 +68,7 @@ module.exports = function( _server ) {
 						console.log(d);
 						console.log(userid);
 						if( result.user_id != userid ) {
-							await redisClient.geodist("userposition", userid, result.user_id, "km", function (err, data) {
+							await redisClient.geodist("userposition", userid, result.user_id, "m", function (err, data) {
 								if (err) return 0;
 								console.log(data);
 							});
