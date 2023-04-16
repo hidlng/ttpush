@@ -53,86 +53,86 @@ module.exports = function( _server ) {
 				console.log( data );
 			});
 
-			redisClient.keys('*user:*', async function (err, keys) {
-				if (err) {
-					console.log(err);
-					return;
-				};
+			// redisClient.keys('*user:*', async function (err, keys) {
+			// 	if (err) {
+			// 		console.log(err);
+			// 		return;
+			// 	};
 
-				var returnArray = [];
-				console.log( "keys length = " + keys.length );
-				if( keys != undefined && keys.length > 0 ) {
-					for( var i = 0; i < keys.length; i++ ) {
-						var d = keys[i];
-						var userid = d.substring(5);
+			// 	var returnArray = [];
+			// 	console.log( "keys length = " + keys.length );
+			// 	if( keys != undefined && keys.length > 0 ) {
+			// 		for( var i = 0; i < keys.length; i++ ) {
+			// 			var d = keys[i];
+			// 			var userid = d.substring(5);
 
-						console.log( my_user_id + ' / ' + userid );
-						if( my_user_id != userid ) {
+			// 			console.log( my_user_id + ' / ' + userid );
+			// 			if( my_user_id != userid ) {
 
-							var user = await redisClient.v4.get(`user:${userid}`); 
-							var userJson = await JSON.parse(user);
-							var dis_user_oid = userJson.user_id;
-							var dis_user_nickname = userJson.nickname;
-							var dis_pid = userJson.pid;
+			// 				var user = await redisClient.v4.get(`user:${userid}`); 
+			// 				var userJson = await JSON.parse(user);
+			// 				var dis_user_oid = userJson.user_id;
+			// 				var dis_user_nickname = userJson.nickname;
+			// 				var dis_pid = userJson.pid;
 
-							if( newUserObj == null ) {
-								fcm_common.sendFcm(dis_pid, nickname, "3");
-							}
+			// 				if( newUserObj == null ) {
+			// 					fcm_common.sendFcm(dis_pid, nickname, "3");
+			// 				}
 
 
-							await redisClient.geodist("userposition", userid, my_user_id, "m", async function (err, data) {
-								if (err) return 0;
-								console.log('************************');
-								console.log('************************');
-								console.log(data);
-								console.log( nickname   +' / '+ dis_user_nickname + ' / '+ intPreDate + ' / ' + data );
-								console.log('************************');
-								console.log('************************');
-								if( parseInt(data) <= 500 ) {
-									console.log('************************');
-									var sql = `
-										SELECT * FROM tanggodb.meetinfo WHERE toid = ${dis_user_oid} AND fromid = ${my_user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
-									`
-									var result = await executeQuery(pool, sql, []);
+			// 				await redisClient.geodist("userposition", userid, my_user_id, "m", async function (err, data) {
+			// 					if (err) return 0;
+			// 					console.log('************************');
+			// 					console.log('************************');
+			// 					console.log(data);
+			// 					console.log( nickname   +' / '+ dis_user_nickname + ' / '+ intPreDate + ' / ' + data );
+			// 					console.log('************************');
+			// 					console.log('************************');
+			// 					if( parseInt(data) <= 500 ) {
+			// 						console.log('************************');
+			// 						var sql = `
+			// 							SELECT * FROM tanggodb.meetinfo WHERE toid = ${dis_user_oid} AND fromid = ${my_user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
+			// 						`
+			// 						var result = await executeQuery(pool, sql, []);
 									
-									console.log( nickname   +' / '+ dis_user_nickname + ' / '+ intPreDate + ' / ' + data );
+			// 						console.log( nickname   +' / '+ dis_user_nickname + ' / '+ intPreDate + ' / ' + data );
 									
-									console.log( sql );
-									console.log(result);
+			// 						console.log( sql );
+			// 						console.log(result);
 									
-								console.log('************************');
-								console.log('************************');
-									if( result.length == 0 ) {
-										var insertsql = `
-											insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${dis_user_oid} , '${dis_user_nickname}', ${my_user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
-										`
-										await executeQuery(pool, insertsql, []);
-										//send push
+			// 					console.log('************************');
+			// 					console.log('************************');
+			// 						if( result.length == 0 ) {
+			// 							var insertsql = `
+			// 								insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${dis_user_oid} , '${dis_user_nickname}', ${my_user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
+			// 							`
+			// 							await executeQuery(pool, insertsql, []);
+			// 							//send push
 
-										fcm_common.sendFcm(pid, dis_user_nickname, "1");
-									}
-								}
+			// 							fcm_common.sendFcm(pid, dis_user_nickname, "1");
+			// 						}
+			// 					}
 
-							});
+			// 				});
 								
-							var dataObj = new Object();
-							dataObj.lng  = userJson.lng;
-							dataObj.lat  = userJson.lat;
-							dataObj.nickname  = userJson.nickname;
-							returnArray.push(dataObj);
+			// 				var dataObj = new Object();
+			// 				dataObj.lng  = userJson.lng;
+			// 				dataObj.lat  = userJson.lat;
+			// 				dataObj.nickname  = userJson.nickname;
+			// 				returnArray.push(dataObj);
 
-							console.log("save data");
-							console.log(dataObj);
-						}
+			// 				console.log("save data");
+			// 				console.log(dataObj);
+			// 			}
 
 						
-					}
+			// 		}
 
-					ws.send(JSON.stringify(returnArray));
-				}
-				//console.log(keys);
+			// 		ws.send(JSON.stringify(returnArray));
+			// 	}
+			// 	//console.log(keys);
 				
-			});
+			// });
 
 			//console.log( intNowDate + ' / '+ intPreDate );
 
