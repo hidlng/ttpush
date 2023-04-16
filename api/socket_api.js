@@ -40,8 +40,8 @@ module.exports = function( _server ) {
 			
 
 			
-			req.redisClient.v4.set(`user:${result.user_id}`, JSON.stringify(result)); 
-			req.redisClient.v4.expire(`user:${result.user_id}`, 60*60 )
+			req.redisClient.set(`user:${result.user_id}`, JSON.stringify(result)); 
+			req.redisClient.expire(`user:${result.user_id}`, 60*60 )
 
 
 			//console.log( intNowDate + ' / '+ intPreDate );
