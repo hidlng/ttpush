@@ -24,8 +24,8 @@ module.exports = {
             }
         }; 
 
-
-//		console.log(dkey);
+        console.log( dkey );
+        console.log( payload );
 
         admin.messaging().sendToDevice( dkey, payload  ).then(function(response){
             console.log('success');
