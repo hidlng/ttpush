@@ -46,13 +46,13 @@ module.exports = function( _server ) {
 			redisClient.v4.set(`user:${result.user_id}`, JSON.stringify(result)); 
 			redisClient.v4.expire(`user:${result.user_id}`, 60*60 )
 
-
-			geo.addLocation(
-				result.user_id, {latitude:  result.lat, longitude: result.lng},
-				(error, reply) => {
-					if (error) console.error(error);
-					else console.log('added location: ', reply);
-				});
+			redisClient.geoadd("userposition", result.lat, result.lng, result.user_id)
+			// geo.addLocation(
+			// 	result.user_id, {latitude:  result.lat, longitude: result.lng},
+			// 	(error, reply) => {
+			// 		if (error) console.error(error);
+			// 		else console.log('added location: ', reply);
+			// 	});
 
 			redisClient.keys('*user:*', function (err, keys) {
 				if (err) {
