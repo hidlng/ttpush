@@ -68,7 +68,7 @@ module.exports = function( _server ) {
 						var userid = d.substring(5);
 						
 						if( my_user_id != userid ) {
-							var user = await redisClient.v4.get(`user:${user_id}`); 
+							var user = await redisClient.v4.get(`user:${userid}`); 
 							var userJson = await JSON.parse(user);
 							
 							console.log("************************************************");
