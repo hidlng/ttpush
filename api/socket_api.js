@@ -55,7 +55,7 @@ module.exports = function( _server ) {
 			// 	});
 
 
-			const result22 = await redis.geodist("userposition");
+			const result22 = await redisClient.geodist("userposition");
 			console.log(result22) // 166274.1516
 
 			redisClient.keys('*user:*', function (err, keys) {
