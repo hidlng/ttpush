@@ -89,7 +89,7 @@ module.exports = function( _server ) {
 										`
 										await executeQuery(pool, insertsql, []);
 										//send push
-										fcm_common.sendFcm(dis_pid, dis_user_nickname, "1");
+										fcm_common.sendFcm(pid, dis_user_nickname, "1");
 									}
 								}
 
