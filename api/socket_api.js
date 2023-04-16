@@ -44,6 +44,47 @@ module.exports = function( _server ) {
 			redisClient.v4.expire(`user:${result.user_id}`, 60*60 )
 
 
+			req.redisClient.keys('*user:*', function (err, keys) {
+				if (err) {
+					console.log(err);
+					return;
+				};
+
+				var returnArray = [];;
+				if( user != undefined && keys.length > 0 ) {
+					for( var i = 0; i < keys.length; i++ ) {
+						var d = keys[i];
+						console.log(d);
+						//fcm_common.sendFcm(d.pid,'test');
+						// if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
+						// 	//500m
+						// 	if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 0.5 ) {
+						// 		var sql = `
+						// 			SELECT * FROM tanggodb.meetinfo WHERE toid = ${d.user_id} AND fromid = ${user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
+						// 		`
+						// 		var result = await executeQuery(pool, sql, []);
+						// 		if( result.length == 0 ) {
+						// 			var insertsql = `
+						// 				insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${d.user_id} , '${d.nickname}', ${user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
+						// 			`
+						// 			await executeQuery(pool, insertsql, []);
+						// 			//send push
+						// 			fcm_common.sendFcm(d.pid, nickname, "1");
+						// 		}
+						// 	}
+							
+						// 	var dataObj = new Object();
+						// 	dataObj.lng  = d.lng;
+						// 	dataObj.lat  = d.lat;
+						// 	dataObj.nickname  = d.nickname;
+						// 	returnArray.push(dataObj);
+						// }
+					}
+				}
+				//console.log(keys);
+				
+			});
+
 			//console.log( intNowDate + ' / '+ intPreDate );
 
 			
