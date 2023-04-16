@@ -75,7 +75,7 @@ module.exports = function( _server ) {
 							}
 
 
-							await redisClient.georadius("userposition", lng, lat, 500,"m", async function (err, data) {
+							await redisClient.geodist("userposition", userid, my_user_id, "m", async function (err, data) {
 								if (err) return 0;
 								console.log('************************');
 								console.log('************************');
@@ -85,7 +85,6 @@ module.exports = function( _server ) {
 								console.log('************************');
 								if( parseInt(data) <= 500 ) {
 									console.log( nickname   +' / '+ dis_user_nickname + ' / '+ intPreDate + ' / ' + data );
-									console.log('************************');
 									console.log('************************');
 									var sql = `
 										SELECT * FROM tanggodb.meetinfo WHERE toid = ${dis_user_oid} AND fromid = ${my_user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
