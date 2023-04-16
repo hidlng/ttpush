@@ -5,6 +5,26 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
 const cron = require('node-cron');
+const dotenv = require('dotenv');
+var redis = require( 'redis' );
+
+//redis 설정 시작
+const redisClient = redis.createClient({
+  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}/0`,
+  legacyMode: true, // 반드시 설정 !!
+  enable_offline_queue: false,
+  password : `${process.env.REDIS_PASSWORD}`
+});
+
+redisClient.on('connect', () => {
+  console.info('Redis connected!');
+});
+redisClient.on('error', (err) => {
+  console.error('Redis Client Error', err);
+});
+redisClient.connect().then();
+//redis 설정 끝
+
 
 global.serverPushArray = new Array();
 
