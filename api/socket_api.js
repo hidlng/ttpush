@@ -83,12 +83,14 @@ module.exports = function( _server ) {
 										SELECT * FROM tanggodb.meetinfo WHERE toid = ${dis_user_oid} AND fromid = ${my_user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
 									`
 									var result = await executeQuery(pool, sql, []);
+									console.log(result);
 									if( result.length == 0 ) {
 										var insertsql = `
 											insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${dis_user_oid} , '${dis_user_nickname}', ${my_user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
 										`
 										await executeQuery(pool, insertsql, []);
 										//send push
+										console.log( nickname   +' / '+ dis_user_nickname )
 										fcm_common.sendFcm(pid, dis_user_nickname, "1");
 									}
 								}
