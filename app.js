@@ -12,7 +12,7 @@ var redis = require( 'redis' );
 dotenv.config(); // env환경변수 파일 가져오기
 
 //redis 설정 시작
-const redisClient = redis.createClient({
+global.redisClient = redis.createClient({
   url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}/0`,
   legacyMode: true, // 반드시 설정 !!
   enable_offline_queue: false,
@@ -57,11 +57,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use((req, res, next) => {
-  req.redisClient = redisClient;
-  next();
-});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
