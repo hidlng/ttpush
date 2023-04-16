@@ -48,31 +48,8 @@ module.exports = function( _server ) {
 
 			await redisClient.geoadd("userposition", lng, lat, my_user_id);
 
-			redisClient.keys('*user:*', async function (err, keys) {
-				if (err) {
-					console.log(err);
-					return;
-				};
 
-				console.log( "keys length = " + keys.length );
-				if( keys != undefined && keys.length > 0 ) {
-					for( var i = 0; i < keys.length; i++ ) {
-						var d = keys[i];
-						var userid = d.substring(5);
-						if( my_user_id != userid ) {
-
-							var user = await redisClient.v4.get(`user:${userid}`); 
-							var userJson = await JSON.parse(user);
-							var dis_pid = userJson.pid;
-							if( newUserObj == null ) {
-								fcm_common.sendFcm(dis_pid, nickname, "3");
-							}
-						}
-					}
-				}
-			});
-
-
+			
 			var returnArray = [];
 			await redisClient.georadius("userposition", lng, lat, 500, "m", async function (err, data) {
 				console.log( data );
@@ -102,6 +79,33 @@ module.exports = function( _server ) {
 							}
 								
 								
+
+						}
+
+					}
+				}
+			});
+
+			redisClient.keys('*user:*', async function (err, keys) {
+				if (err) {
+					console.log(err);
+					return;
+				};
+
+				console.log( "keys length = " + keys.length );
+				if( keys != undefined && keys.length > 0 ) {
+					for( var i = 0; i < keys.length; i++ ) {
+						var d = keys[i];
+						var userid = d.substring(5);
+						if( my_user_id != userid ) {
+
+							var user = await redisClient.v4.get(`user:${userid}`); 
+							var userJson = await JSON.parse(user);
+							var dis_pid = userJson.pid;
+							if( newUserObj == null ) {
+								fcm_common.sendFcm(dis_pid, nickname, "3");
+							}
+
 							var dataObj = new Object();
 							dataObj.lng  = userJson.lng;
 							dataObj.lat  = userJson.lat;
@@ -111,14 +115,11 @@ module.exports = function( _server ) {
 							console.log("save data");
 							console.log(dataObj);
 						}
-
 					}
 
 					ws.send(JSON.stringify(returnArray));
 				}
 			});
-
-			
 		});
 		
 		ws.on('error', function(error){
