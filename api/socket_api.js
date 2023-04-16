@@ -60,7 +60,8 @@ module.exports = function( _server ) {
 					return;
 				};
 
-				var returnArray = [];;
+				var returnArray = [];
+				console.log( "keys length = " + keys.length );
 				if( keys != undefined && keys.length > 0 ) {
 					for( var i = 0; i < keys.length; i++ ) {
 						var d = keys[i];
@@ -69,7 +70,8 @@ module.exports = function( _server ) {
 						if( result.user_id != userid ) {
 							var user = await redisClient.v4.get(`user:${user_id}`); 
 							var d = await JSON.parse(user);
-
+						
+							console.log(d);
 							await redisClient.geodist("userposition", userid, result.user_id, "m", async function (err, data) {
 								if (err) return 0;
 								console.log(data);
