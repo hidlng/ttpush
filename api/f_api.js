@@ -48,7 +48,7 @@ app.post('/fcm', function(req, res) {
 
 
 app.get('/test', function(req, res) {
-		fcm_common.sendFcm('fpp-oGSmSMidexrXUixdzH:APA91bHAbeBdQeec8e2jG-L4muShlR0M0DDHqc5OZCQZLgNbb9_HNYZDH4ntW7P0HQ8xsI6VsoleTKT6B4YslOHRmRIAtgPDxV7sR3lWFsfdzd_ktudvVb52AVhukkGOZtRVoDWxAK5o', '');
+		fcm_common.sendFcm('fpp-oGSmSMidexrXUixdzH:APA91bHAbeBdQeec8e2jG-L4muShlR0M0DDHqc5OZCQZLgNbb9_HNYZDH4ntW7P0HQ8xsI6VsoleTKT6B4YslOHRmRIAtgPDxV7sR3lWFsfdzd_ktudvVb52AVhukkGOZtRVoDWxAK5o', 'Test', "1");
 		res.json("ok");
 });
 
