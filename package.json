@@ -1,0 +1,24 @@
+{
+  "name": "ttpush",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "firebase-admin": "^10.3.0",
+    "http-errors": "~1.6.3",
+    "https-proxy-agent": "^5.0.1",
+    "mongoose": "^6.7.4",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "node-cron": "^3.0.0",
+    "socket.io": "^4.4.0",
+    "websocket": "^1.0.34",
+    "ws": "^8.4.0"
+  }
+}
