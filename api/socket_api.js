@@ -54,7 +54,7 @@ module.exports = function( _server ) {
 			// 		else console.log('added location: ', reply);
 			// 	});
 
-			redisClient.keys('*user:*', function (err, keys) {
+			redisClient.keys('*user:*', async function (err, keys) {
 				if (err) {
 					console.log(err);
 					return;
@@ -68,8 +68,10 @@ module.exports = function( _server ) {
 						console.log(d);
 						console.log(userid);
 						if( result.user_id != userid ) {
-							const result22 = redisClient.geodist("userposition", userid, result.user_id, "km");
-							console.log(result22) ;	
+							await redisClient.geodist("userposition", userid, result.user_id, "km", function (err, data) {
+								if (err) return 0;
+								console.log(data);
+							});
 						}
 						//fcm_common.sendFcm(d.pid,'test');
 						// if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
