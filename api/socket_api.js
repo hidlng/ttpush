@@ -5,6 +5,9 @@ var fcm_common = require('../fcm/push');
 var pool = require('../db/config');
 const RealLog = require('../model/realLog');
 
+const geo = require('georedis').initialize(redisClient);
+
+
 module.exports = function( _server ) {
 	var wss = new wsModule.Server({server:_server});
 	
@@ -80,6 +83,8 @@ module.exports = function( _server ) {
 						// 	returnArray.push(dataObj);
 						// }
 					}
+					
+					// ws.send(JSON.stringify(returnArray));
 				}
 				//console.log(keys);
 				
