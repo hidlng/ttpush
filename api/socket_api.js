@@ -72,22 +72,24 @@ module.exports = function( _server ) {
 							var user = await redisClient.v4.get(`user:${userid}`); 
 							var userJson = await JSON.parse(user);
 							var dis_user_oid = userJson.user_id;
+							var dis_user_nickname = userJson.nickname;
+							var dis_pid = userJson.pid;
 
 							await redisClient.geodist("userposition", userid, my_user_id, "m", async function (err, data) {
 								if (err) return 0;
 								console.log(data);
 								if( parseFloat(data) <= 500 ) {
 									var sql = `
-										SELECT * FROM tanggodb.meetinfo WHERE toid = ${dis_user_oid} AND fromid = ${user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
+										SELECT * FROM tanggodb.meetinfo WHERE toid = ${dis_user_oid} AND fromid = ${my_user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
 									`
 									var result = await executeQuery(pool, sql, []);
 									if( result.length == 0 ) {
 										var insertsql = `
-											insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${dis_user_oid} , '${d.nickname}', ${user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
+											insert into tanggodb.meetinfo (  toid, toname, fromid, fromname, lat, lng , meettime ) values ( ${dis_user_oid} , '${dis_user_nickname}', ${my_user_id} , '${nickname}' ,'${lat}' ,'${lng}' , '${intNowDate}' )
 										`
 										await executeQuery(pool, insertsql, []);
 										//send push
-										fcm_common.sendFcm(d.pid, nickname, "1");
+										fcm_common.sendFcm(dis_pid, dis_user_nickname, "1");
 									}
 								}
 
