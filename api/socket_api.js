@@ -11,7 +11,7 @@ const geo = require('georedis').initialize(redisClient);
 module.exports = function( _server ) {
 	var wss = new wsModule.Server({server:_server});
 	
-	wss.on('connection', function( ws, req ) {
+	wss.on('connection', async function( ws, req ) {
 		console.log('test');
 		ws.on('message', function(message){
 			var result = JSON.parse(message.toString("utf8"));
@@ -41,7 +41,8 @@ module.exports = function( _server ) {
 			var preDate = new Date(prefive);
 			var intPreDate = parseInt(preDate.YYYYMMDDHHMMSS());
 			
-
+			var newUserObj = redisClient.v4.get(`user:${result.user_id}`); 
+			console.log(newUserObj);
 			
 			redisClient.v4.set(`user:${result.user_id}`, JSON.stringify(result)); 
 			redisClient.v4.expire(`user:${result.user_id}`, 5*60 );
