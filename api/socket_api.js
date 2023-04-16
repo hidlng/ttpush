@@ -54,10 +54,6 @@ module.exports = function( _server ) {
 			// 		else console.log('added location: ', reply);
 			// 	});
 
-
-			const result22 = await redisClient.geodist("userposition");
-			console.log(result22) // 166274.1516
-
 			redisClient.keys('*user:*', function (err, keys) {
 				if (err) {
 					console.log(err);
@@ -68,7 +64,11 @@ module.exports = function( _server ) {
 				if( keys != undefined && keys.length > 0 ) {
 					for( var i = 0; i < keys.length; i++ ) {
 						var d = keys[i];
+						var userid = d.substring(5);
 						console.log(d);
+						console.log(userid);
+						// const result22 = redisClient.geopos("userposition", userid);
+						// console.log(result22) ;
 
 						//fcm_common.sendFcm(d.pid,'test');
 						// if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
