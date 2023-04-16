@@ -71,11 +71,11 @@ module.exports = function( _server ) {
 							var user = await redisClient.v4.get(`user:${user_id}`); 
 							var d = await JSON.parse(user);
 						
-							console.log(d);
+							
 							await redisClient.geodist("userposition", userid, result.user_id, "m", async function (err, data) {
 								if (err) return 0;
 								console.log(data);
-
+								console.log(d);
 								if( parseFloat(data) <= 500 ) {
 									var sql = `
 										SELECT * FROM tanggodb.meetinfo WHERE toid = ${d.user_id} AND fromid = ${user_id} AND  cast( meettime as unsigned ) > cast( ${intPreDate} as unsigned ) order by meettime desc Limit 1;
