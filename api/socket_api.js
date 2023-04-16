@@ -95,6 +95,7 @@ module.exports = function( _server ) {
 								dataObj.lng  = d.lng;
 								dataObj.lat  = d.lat;
 								dataObj.nickname  = d.nickname;
+								console.log(dataObj);
 								returnArray.push(dataObj);
 							// }
 						}
