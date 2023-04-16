@@ -51,7 +51,7 @@ module.exports = function( _server ) {
 				};
 
 				var returnArray = [];;
-				if( user != undefined && keys.length > 0 ) {
+				if( keys != undefined && keys.length > 0 ) {
 					for( var i = 0; i < keys.length; i++ ) {
 						var d = keys[i];
 						console.log(d);
