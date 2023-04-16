@@ -102,25 +102,19 @@ module.exports = function( _server ) {
 								}
 
 							});
-
-							//fcm_common.sendFcm(d.pid,'test');
-							// if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
-							// 	//500m
 								
-								
-								var dataObj = new Object();
-								dataObj.lng  = d.lng;
-								dataObj.lat  = d.lat;
-								dataObj.nickname  = d.nickname;
-								console.log(dataObj);
-								returnArray.push(dataObj);
-							// }
+							var dataObj = new Object();
+							dataObj.lng  = d.lng;
+							dataObj.lat  = d.lat;
+							dataObj.nickname  = d.nickname;
+							console.log(dataObj);
+							returnArray.push(dataObj);
 						}
 
 						
 					}
-					
-					// ws.send(JSON.stringify(returnArray));
+
+					ws.send(JSON.stringify(returnArray));
 				}
 				//console.log(keys);
 				
