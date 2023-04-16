@@ -73,6 +73,7 @@ module.exports = function( _server ) {
 								console.log(data);
 							});
 							var d = await redisClient.v4.get(`user:${user_id}`); 
+							console.log(d);
 							//fcm_common.sendFcm(d.pid,'test');
 							// if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
 							// 	//500m
