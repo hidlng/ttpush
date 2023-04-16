@@ -67,9 +67,10 @@ module.exports = function( _server ) {
 						var userid = d.substring(5);
 						console.log(d);
 						console.log(userid);
-						const result22 = redisClient.geopos("userposition", userid);
-						console.log(result22) ;
-
+						if( result.user_id != userid ) {
+							const result22 = redisClient.geodist("userposition", userid, result.user_id, "km");
+							console.log(result22) ;	
+						}
 						//fcm_common.sendFcm(d.pid,'test');
 						// if( getDistanceFromLatLonInKm( lat, lng, d.lat, d.lng ) <= 150 ) {
 						// 	//500m
