@@ -49,7 +49,7 @@ module.exports = function( _server ) {
 			await redisClient.geoadd("userposition", lng, lat, my_user_id);
 
 
-			await redisClient.georadius("userposition", lng, lat, 1, "km", async function (err, data) {
+			await redisClient.georadius("userposition", lng, lat, 1, "m", async function (err, data) {
 				console.log( data );
 			});
 
