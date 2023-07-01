@@ -70,6 +70,15 @@ app.get('/del', function(req, res) {
 	res.json("ok");
 });
 
+
+app.get('/getChatlist', function(req, res) {
+    redisClient.lrange('chatList', 0, -1, async function (err, reply) {
+		if (err) throw err;
+		res.json(reply);
+	  });
+	
+});
+
 function replaceAll(str, searchStr, replaceStr) {
    return str.split(searchStr).join(replaceStr);
 }
