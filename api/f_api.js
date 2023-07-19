@@ -72,6 +72,7 @@ app.get('/del', function(req, res) {
 
 
 app.get('/welcomeMsg', function(req, res) {
+	console.log( 'weclome' )
 	console.log(req.query.pid);
 	//fcm_common.sendFcm(req.pid, nickname, "4");
 });
