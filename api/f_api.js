@@ -72,7 +72,8 @@ app.get('/del', function(req, res) {
 
 
 app.get('/welcomeMsg', function(req, res) {
-	fcm_common.sendFcm(req.pid, nickname, "4");
+	console.log(req.query.pid);
+	//fcm_common.sendFcm(req.pid, nickname, "4");
 });
 
 
