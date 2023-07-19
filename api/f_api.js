@@ -71,6 +71,11 @@ app.get('/del', function(req, res) {
 });
 
 
+app.get('/welcomeMsg', function(req, res) {
+	fcm_common.sendFcm(req.pid, nickname, "4");
+});
+
+
 app.get('/getChatlist', function(req, res) {
     redisClient.lrange('chatList', 0, -1, async function (err, reply) {
 		if (err) throw err;
