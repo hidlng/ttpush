@@ -36,7 +36,7 @@ module.exports = function( _server ) {
 			
 			var nowDate = new Date(comDate);
 			var intNowDate = parseInt(nowDate.YYYYMMDDHHMMSS());
-			var prefive = nowDate.setMinutes(nowDate.getMinutes() - 5);
+			var prefive = nowDate.setMinutes(nowDate.getMinutes() - 1);
 			var preDate = new Date(prefive);
 			var intPreDate = parseInt(preDate.YYYYMMDDHHMMSS());
 			

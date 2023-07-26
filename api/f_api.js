@@ -72,21 +72,6 @@ app.get('/del', function(req, res) {
 
 
 app.get('/welcomeMsg', function(req, res) {
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( 'weclome' );
-	console.log(req.query.pid);
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
-	console.log( '**********' );
 	fcm_common.sendFcm(req.query.pid, "", "4");
 });
 
