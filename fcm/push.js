@@ -20,7 +20,6 @@ module.exports = {
 
         const message = {
             to: dkey,
-            priority: 'high',
             data: {
                 "title" : "TANGO 스치",
                 "message" : name,
