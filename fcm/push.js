@@ -1,11 +1,13 @@
 var admin = require("firebase-admin");
 var serviceAccount = require('../tango-17fdb-firebase-adminsdk-6mu9h-cb0d32717e.json');
+var myRefreshToken = '119552969574-em5knnb06j8s88m0n74jv9do8a9d439t.apps.googleusercontent.com';
 module.exports = {
-
+    //AIzaSyDs4OfHUZUxQxHaXozjCXDX_rE9hz10Bis
     initFcm : async function() {
         console.log( 'Push Init' );
         admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount)
+            credential: refreshToken(myRefreshToken)
+            //credential: admin.credential.cert(serviceAccount)
         });
     },
 
