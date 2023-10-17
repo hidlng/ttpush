@@ -25,7 +25,15 @@ app.get('/test', function(req, res) {
 
 app.get('/fcm_test', function(req, res) {
 	var content = req.body.content
-    fcm_common.sendFcm('cqtEa2cJStmw3pu-HdDWeB:APA91bFKWXzzNo1QizeJuDEyRmEtIvyOtR7emZK2yo6hGR2c9rGJts_VAZhCtNRqwrBN3WcYmhajKWFflVb7dZcBwcAJnZGoLIkG7h7cn8d53vk0W3l75pAeVQXgXcsexJvhnB3SJjKz','Push테스트', "1");
+	var idx = req.query.id;
+	var test = "";
+
+	if( idx == 1 ) {
+		test = "elXrUvhqSmOt99mrXQOSPp:APA91bGzSeWDZkWSeFgM5XwdqEJ6cL-KKS-7JU0Ity-r0l5dlbZYdGo1w5wF2sAUbpKMaSyXCEmsZDda4oujFt1CCwJ7kKBSbLc8GLLfhAmIq2EnFuvecwzjmc8IfHr8IgsorfTXQV5M";
+	} else if( idx == 2 ) {
+		test = "cqtEa2cJStmw3pu-HdDWeB:APA91bFKWXzzNo1QizeJuDEyRmEtIvyOtR7emZK2yo6hGR2c9rGJts_VAZhCtNRqwrBN3WcYmhajKWFflVb7dZcBwcAJnZGoLIkG7h7cn8d53vk0W3l75pAeVQXgXcsexJvhnB3SJjKz";
+	}
+    fcm_common.sendFcm(test,'Push테스트', "1");
 	res.json("ok");
 });
 
