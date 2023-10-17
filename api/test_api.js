@@ -30,6 +30,8 @@ app.get('/fcm_test', function(req, res) {
 });
 
 
+
+
 app.post('/userlist', function(req, res) {
 	pool.getConnection(function(err,connection){
 		var pushSql = `select * from tanggodb.user where pid is not null and pid != '' and status = 'Y'`;
