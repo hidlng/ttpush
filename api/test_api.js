@@ -25,7 +25,7 @@ app.get('/test', function(req, res) {
 
 app.get('/fcm_test', function(req, res) {
 	var content = req.body.content
-    fcm_common.sendFcm('c3SlEymSR4WFbRfGB_TdTQ:APA91bE0H2XG2hl-vFVcVkTnKswctm7aPJbq7gC8D5mlkwsonW3FENApTdxNoDXl6TLEY06A0uk10YSEKJoLss51Dsx9fOws5uAGqN8FyscR8w0BLF3TQ37o5XbqUtVlWRYHdxCeEO-Z','Push테스트', "1");
+    fcm_common.sendFcm('cqtEa2cJStmw3pu-HdDWeB:APA91bFKWXzzNo1QizeJuDEyRmEtIvyOtR7emZK2yo6hGR2c9rGJts_VAZhCtNRqwrBN3WcYmhajKWFflVb7dZcBwcAJnZGoLIkG7h7cn8d53vk0W3l75pAeVQXgXcsexJvhnB3SJjKz','Push테스트', "1");
 	res.json("ok");
 });
 
