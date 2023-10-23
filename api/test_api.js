@@ -59,6 +59,29 @@ app.post('/userlist', function(req, res) {
 });
 
 
+
+app.post('/updateIcon', function(req, res) {
+	pool.getConnection(function(err,connection){
+		var pushSql = `update userinfo set icon = ${req.body.icon} where seq = ${req.body.u_id}`;
+		
+        connection.query(pushSql, function (err, rows) {
+            if(err){
+        		console.log(err);
+        		connection.release();
+                res.send(500, 'error');
+                return;
+            }
+
+			connection.release();
+			res.json('ok');
+        });
+    });
+});
+
+
+
+
+
 app.post('/initArr', function(req, res) {
 	serverPushArray = new Array();
 });
