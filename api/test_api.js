@@ -31,7 +31,7 @@ app.get('/fcm_test', function(req, res) {
 	if( idx == 1 ) {
 		test = "c5Vs2GTGTfu5om95GLWsFH:APA91bFYWAFEbNcY01oG71I4y2rVBirKLllCGNnyA88CrmuPGvrRUjRZR2Ul46MHIQG1rcSmvje0Aaxl53yUzePPglZcYy4lYXpJavGcJDzwknqRbCAnXZXbK1V6o8dM7DRcn9ow8KNm";
 	} else if( idx == 2 ) {
-		test = "cQoKHKWMQYej1cRjYc1hqK:APA91bH3taaa8BJ20xzYwGVENfrjC4mNedQCM787uP_x32g7ZIiSHjoltAbKz70cRg4VyZMxCTafBkmd4Q0gueXk1qUDPhDfGi6dMhcXKQUViqi2q6O_uta7yWMG8kirHeRQeqb5Ct_1";
+		test = "efyucHM3RSmiYoajPOam6x:APA91bFLd3s1m0BqEN7KMCbWUTCEvEzfh3XvOeaNVGCArFZYsHS-S8n3ovORJYf7zt6MpcqeIPz4FzR4raPtMt3nf4yNXevUgkZC32ArLesy7Gc1L9eIAtzcELZp7fVTnqLwKcWE1WLb";
 	}
     fcm_common.sendFcm(test,'Push테스트', "1");
 	res.json("ok");
