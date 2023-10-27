@@ -72,7 +72,7 @@ app.get('/del', function(req, res) {
 
 
 app.get('/welcomeMsg', function(req, res) {
-	fcm_common.sendFcm(req.query.pid, "환영합니다.", "4");
+	fcm_common.sendFcm(req.query.pid, "", "4");
 });
 
 
