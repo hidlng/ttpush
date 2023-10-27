@@ -72,7 +72,7 @@ app.get('/del', function(req, res) {
 
 
 app.get('/welcomeMsg', function(req, res) {
-	fcm_common.sendFcm(req.query.pid, "", "4");
+	fcm_common.sendFcm(req.query.pid, "다른트럭과 스치면 자동으로 알려주는 트럭놀이터 탱고입니다.", "4");
 });
 
 
