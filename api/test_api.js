@@ -33,7 +33,7 @@ app.get('/fcm_test', function(req, res) {
 	} else if( idx == 2 ) {
 		test = "efyucHM3RSmiYoajPOam6x:APA91bFLd3s1m0BqEN7KMCbWUTCEvEzfh3XvOeaNVGCArFZYsHS-S8n3ovORJYf7zt6MpcqeIPz4FzR4raPtMt3nf4yNXevUgkZC32ArLesy7Gc1L9eIAtzcELZp7fVTnqLwKcWE1WLb";
 	}
-    fcm_common.sendFcm(test,'Push테스트', "1");
+    fcm_common.sendFcm(test,'Push테스트', "4");
 	res.json("ok");
 });
 
