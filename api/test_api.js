@@ -29,7 +29,7 @@ app.get('/fcm_test', function(req, res) {
 	var test = "";
 
 	if( idx == 1 ) {
-		test = "elXrUvhqSmOt99mrXQOSPp:APA91bGzSeWDZkWSeFgM5XwdqEJ6cL-KKS-7JU0Ity-r0l5dlbZYdGo1w5wF2sAUbpKMaSyXCEmsZDda4oujFt1CCwJ7kKBSbLc8GLLfhAmIq2EnFuvecwzjmc8IfHr8IgsorfTXQV5M";
+		test = "c5Vs2GTGTfu5om95GLWsFH:APA91bFYWAFEbNcY01oG71I4y2rVBirKLllCGNnyA88CrmuPGvrRUjRZR2Ul46MHIQG1rcSmvje0Aaxl53yUzePPglZcYy4lYXpJavGcJDzwknqRbCAnXZXbK1V6o8dM7DRcn9ow8KNm";
 	} else if( idx == 2 ) {
 		test = "cqtEa2cJStmw3pu-HdDWeB:APA91bFKWXzzNo1QizeJuDEyRmEtIvyOtR7emZK2yo6hGR2c9rGJts_VAZhCtNRqwrBN3WcYmhajKWFflVb7dZcBwcAJnZGoLIkG7h7cn8d53vk0W3l75pAeVQXgXcsexJvhnB3SJjKz";
 	}
