@@ -15,7 +15,7 @@ module.exports = function( _server ) {
 		ws.on('message', async function(message){
 			var result = JSON.parse(message.toString("utf8"));
 			
-			console.log(result.carnumber + ' / ' +	result.lng + ' / ' + result.lat + ' / ' + result.nickname + ' / ' + result.user_id + ' / ' + result.myicon + ' / '+ result.pid );
+			console.log(result.carnumber + ' / ' +	result.lng + ' / ' + result.lat + ' / ' + result.nickname + ' / ' + result.user_id + ' / ' + result.myicon + ' / '+ result.pid + ' / '+ result.speed );
 			
 			var lng = "";
 			var lat  = "";
@@ -24,6 +24,7 @@ module.exports = function( _server ) {
 			var carnumber  = "";
 			var pid = "";
 			var myicon = "";
+			var speed = "";
 			
 			if( result.lng != undefined ) { lng =  result.lng }
 			if( result.lat != undefined ) { lat =  result.lat }
@@ -32,6 +33,7 @@ module.exports = function( _server ) {
 			if( result.carnumber != undefined ) { carnumber =  result.carnumber }
 			if( result.pid != undefined ) { pid =  result.pid }
 			if( result.myicon != undefined ) { myicon =  result.myicon }
+			if( result.speed != undefined ) { speed =  result.speed }
 			
 			var comDate = new Date()
 			comDate.setHours(comDate.getHours() + 9);
@@ -113,6 +115,7 @@ module.exports = function( _server ) {
 							dataObj.lat  = userJson.lat;
 							dataObj.nickname  = userJson.nickname;
 							dataObj.myicon = userJson.myicon;
+							dataObj.speed = userJson.speed;
 							returnArray.push(dataObj);
 
 							console.log("save data");
