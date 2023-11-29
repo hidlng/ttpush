@@ -84,6 +84,14 @@ app.get('/getChatlist', function(req, res) {
 	
 });
 
+app.get('/getAccList', function(req, res) {
+    redisClient.lrange('accList', 0, -1, async function (err, reply) {
+		if (err) throw err;
+		res.json(reply);
+	  });
+	
+});
+
 function replaceAll(str, searchStr, replaceStr) {
    return str.split(searchStr).join(replaceStr);
 }
