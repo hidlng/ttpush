@@ -73,9 +73,24 @@ app.get('/del', function(req, res) {
 
 app.post('/friendMsg', function(req, res) {
 	var content = req.body.content
-	var idx = req.body.id;
+	var idx = req.body.pid;
 	var from = req.body.fromUser;
-	
+	var selectIdx = req.body.selectIdx;
+
+	console.log(content);
+	console.log(idx);
+	console.log(from);
+	console.log(selectIdx);
+
+	if( content  == "" ) {
+		if( selectIdx == "1" ) { content = "힘내요";
+		} else if( selectIdx == "2" ) { content = "함봐요";
+		} else if( selectIdx == "3" ) { content = "안운요";
+		} else if( selectIdx == "4" ) { content = "졸지마요";
+		} else if( selectIdx == "5" ) { content = "방가요";
+		}
+	}
+
     fcm_common.sendFcm(idx, content, "5");
 	res.json("ok");
 });
