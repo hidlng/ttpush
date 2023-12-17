@@ -77,6 +77,7 @@ app.post('/friendMsg', function(req, res) {
 	var idx = req.body.pid;
 	var from = req.body.fromUser;
 	var selectIdx = req.body.selectIdx;
+	var sendMykey = req.body.sendMykey;
 
 	console.log(content);
 	console.log(idx);
@@ -92,7 +93,7 @@ app.post('/friendMsg', function(req, res) {
 		}
 	}
 
-    fcm_common.sendMsgFcm(idx, content, "5",from);
+    fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
 	res.json("ok");
 });
 
