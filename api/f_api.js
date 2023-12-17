@@ -92,7 +92,7 @@ app.post('/friendMsg', function(req, res) {
 		}
 	}
 
-    fcm_common.sendMsgFcm(idx, content, "5",from );
+    fcm_common.sendMsgFcm(idx, content, "5",from + '님께서' );
 	res.json("ok");
 });
 
