@@ -12,7 +12,8 @@ module.exports = {
             data: {
                 "title" : "TANGO 스치",
                 "message" : name,
-	        			"option" : option
+	        			"option" : option,
+                "pid" : ''
             },
           };
           
