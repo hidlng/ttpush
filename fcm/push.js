@@ -25,6 +25,28 @@ module.exports = {
                 }
               });
           }
-    }
+    },
+
+
+    sendMsgFcm : async function( dkey, name , option, titleUser) {
+      const message = {
+          to: dkey,
+          data: {
+              "title" : titleUser,
+              "message" : name,
+              "option" : option
+          },
+        };
+        
+        if( dkey != undefined ) { 
+          fcm.send(message, (err, response) => {
+              if (err) {
+                console.log(`Error: ${err}`);
+              } else {
+                console.log(`Response: ${response}`);
+              }
+            });
+        }
+  }
 
 }
