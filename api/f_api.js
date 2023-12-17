@@ -72,6 +72,7 @@ app.get('/del', function(req, res) {
 
 
 app.post('/friendMsg', function(req, res) {
+	console.log(req.body);
 	var content = req.body.content
 	var idx = req.body.pid;
 	var from = req.body.fromUser;
