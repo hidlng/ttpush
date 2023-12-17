@@ -84,11 +84,11 @@ app.post('/friendMsg', function(req, res) {
 	console.log(selectIdx);
 
 	if( content  == "" ) {
-		if( selectIdx == "1" ) { content = "힘내요";
-		} else if( selectIdx == "2" ) { content = "함봐요";
+		if( selectIdx == "1" ) { content = "방가요";
+		} else if( selectIdx == "2" ) { content = "힘내요";
 		} else if( selectIdx == "3" ) { content = "안운요";
-		} else if( selectIdx == "4" ) { content = "졸지마요";
-		} else if( selectIdx == "5" ) { content = "방가요";
+		} else if( selectIdx == "4" ) { content = "함봐요";
+		} else if( selectIdx == "5" ) { content = "졸지마요";
 		}
 	}
 
