@@ -116,6 +116,7 @@ module.exports = function( _server ) {
 							dataObj.nickname  = userJson.nickname;
 							dataObj.myicon = userJson.myicon;
 							dataObj.speed = userJson.speed;
+							dataObj.pid = userJson.pid;
 							returnArray.push(dataObj);
 
 							console.log("save data");
