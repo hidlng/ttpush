@@ -143,6 +143,7 @@ function replaceAll(str, searchStr, replaceStr) {
 }
 
 function requestFriend( toUserid, fromUserid ) {
+	var returnVal = 0;
 	pool.getConnection(function(err,connection){
 		var checkSql = ` select * from tanggodb.friend where mid = ${toUserid} and fid = ${fromUserid} `;
 
@@ -156,7 +157,7 @@ function requestFriend( toUserid, fromUserid ) {
 
 			if( rows.length > 0 ) {
 				connection.release();
-				return 2;
+				returnVal = 2;
 			} else {
 				var pushSql = `insert into tanggodb.friend ( mid, fid, status, writetime, setting_status ) values ( ${toUserid}, ${fromUserid}, '1', now(), '1' )`;
 				connection.query(pushSql, function (err, rows) {
@@ -167,9 +168,11 @@ function requestFriend( toUserid, fromUserid ) {
 						return;
 					}
 					connection.release();
-					return 1;
+					returnVal = 1;
 				});
 			}
 		});
     });
+
+	return returnVal;
 }
