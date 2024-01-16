@@ -122,12 +122,10 @@ app.post('/friendUpdate', async function(req, res) {
 		await executeQuery(pool2, insertSql, []);
 		var updateSql = `update tanggodb.friend set status = '3' where mid = ${sendFromId} and fid = ${sendMyId}; `;
 		await executeQuery(pool2, updateSql, []);
-		return 1;
-	} else if( status == "2" ) {
+	} else if( status == "4" ) {
 		var insertSql = `delete from tanggodb.friend  where mid = ${sendFromId} and fid = ${sendMyId};`;
 		await executeQuery(pool2, insertSql, []);
-		return 1;
-	}
+	} 
 
 	res.json("ok");
 });
