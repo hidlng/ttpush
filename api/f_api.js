@@ -99,7 +99,7 @@ app.post('/friendMsg', async function(req, res) {
 	} else {
 		if( fchk == 1 ) {
 			content = from + "님이 친구 요청 하였습니다.";
-			fcm_common.sendMsgFcm(idx, content, "6", from, sendMykey);
+			fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
 		}
 	}
     
