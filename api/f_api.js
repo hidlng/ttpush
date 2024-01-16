@@ -71,14 +71,14 @@ app.get('/del', function(req, res) {
 });
 
 
-app.post('/friendMsg', function(req, res) {
+app.post('/friendMsg', async function(req, res) {
 	console.log(req.body);
 	var content = req.body.content
 	var idx = req.body.pid;
 	var from = req.body.fromUser;
 	var selectIdx = req.body.selectIdx;
 	var sendMykey = req.body.sendMykey;
-	
+	var fchk = 0;
 	console.log(content);
 	console.log(idx);
 	console.log(from);
@@ -87,8 +87,7 @@ app.post('/friendMsg', function(req, res) {
 	if( content  == "" ) {
 		if( selectIdx == "1" ) { content = "방가요";
 		} else if( selectIdx == "2" ) { 
-			content = from + "님이 친구 요청 하였습니다."
-			requestFriend( req.body.sendMyId, req.body.sendFromId ) ;
+			fchk = await requestFriend( req.body.sendMyId, req.body.sendFromId ) ;
 		} else if( selectIdx == "3" ) { content = "안운요";
 		} else if( selectIdx == "4" ) { content = "함봐요";
 		} else if( selectIdx == "5" ) { content = "졸지마요";
@@ -98,7 +97,10 @@ app.post('/friendMsg', function(req, res) {
 	if( selectIdx != "2" ) {
 		fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
 	} else {
-		fcm_common.sendMsgFcm(idx, content, "6", from, sendMykey);
+		if( fchk == 1 ) {
+			content = from + "님이 친구 요청 하였습니다.";
+			fcm_common.sendMsgFcm(idx, content, "6", from, sendMykey);
+		}
 	}
     
 	res.json("ok");
@@ -133,15 +135,32 @@ function replaceAll(str, searchStr, replaceStr) {
 
 function requestFriend( toUserid, fromUserid ) {
 	pool.getConnection(function(err,connection){
-		var pushSql = `insert into tanggodb.friend ( mid, fid, status, writetime, setting_status ) values ( ${toUserid}, ${fromUserid}, '1', now(), '1' )`;
-        var query = connection.query(pushSql, function (err, rows) {
-            if(err){
+		var checkSql = ` select * from tanggodb.friend where mid = ${toUserid} and fid = ${fromUserid} `;
+
+		connection.query(checkSql, function (err, rows) {
+			if(err){
         		console.log(err);
         		connection.release();
                 res.send(500, 'error');
                 return;
             }
-			connection.release();
-        });
+
+			if( rows.length > 0 ) {
+				connection.release();
+				return 2;
+			} else {
+				var pushSql = `insert into tanggodb.friend ( mid, fid, status, writetime, setting_status ) values ( ${toUserid}, ${fromUserid}, '1', now(), '1' )`;
+				connection.query(pushSql, function (err, rows) {
+					if(err){
+						console.log(err);
+						connection.release();
+						res.send(500, 'error');
+						return;
+					}
+					connection.release();
+					return 1;
+				});
+			}
+		});
     });
 }
