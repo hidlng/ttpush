@@ -176,23 +176,11 @@ app.get('/getAccList', function(req, res) {
 
 
 app.get('/enteranceFriend', async function(req, res) {
-	var checkSql = ` select * from tanggodb.friend where mid = ${req.query.seq} and status = '3'`;
+	var checkSql = ` SELECT a.seq, a.nickname, a.car_number, a.pid, a.ment  FROM tanggodb.userinfo a, tanggodb.friend b where a.seq = b.fid and status = 3 and b.mid = ${req.query.seq} `;
 	var chckData = await executeQuery(pool2, checkSql, []);
-
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			console.log("*****************************");
-			console.log("*****************************");
-			console.log("*****************************");
-			console.log("*****************************");
-			console.log("*****************************");
-			console.log("*****************************");
-			console.log(item);
-			console.log("*****************************");
-			console.log("*****************************");
-			console.log("*****************************");
-			console.log("*****************************");
-			console.log("*****************************");
+			fcm_common.sendFcm(item.pid, item.nickname, "3");
 		});
 	}
 });

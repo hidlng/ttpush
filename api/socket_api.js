@@ -103,7 +103,7 @@ module.exports = function( _server ) {
 							var userJson = await JSON.parse(user);
 							var dis_pid = userJson.pid;
 							if( newUserObj == null ) {
-								fcm_common.sendFcm(dis_pid, nickname, "3");
+								//fcm_common.sendFcm(dis_pid, nickname, "3");
 							}
 
 							var dataObj = new Object();
