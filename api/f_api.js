@@ -87,6 +87,7 @@ app.post('/friendMsg', function(req, res) {
 	if( content  == "" ) {
 		if( selectIdx == "1" ) { content = "방가요";
 		} else if( selectIdx == "2" ) { 
+			content = from + "님이 친구 요청 하였습니다."
 			requestFriend( req.body.sendMyId, req.body.sendFromId ) ;
 		} else if( selectIdx == "3" ) { content = "안운요";
 		} else if( selectIdx == "4" ) { content = "함봐요";
@@ -96,6 +97,8 @@ app.post('/friendMsg', function(req, res) {
 
 	if( selectIdx != "2" ) {
 		fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
+	} else {
+		fcm_common.sendMsgFcm(idx, content, "6", from, sendMykey);
 	}
     
 	res.json("ok");
