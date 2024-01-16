@@ -131,7 +131,7 @@ app.post('/friendUpdate', async function(req, res) {
 		var insertSql = `insert into tanggodb.friend ( mid, fid, status, writetime, setting_status ) values ( ${sendMyId}, ${sendFromId}, '1', now(), '1' )`;
 		await executeQuery(pool2, insertSql, []);
 		var updateSql = `update tanggodb.friend set status = '3' where mid = ${sendFromId} and fid = ${sendMyId}; `;
-		await executeQuery(pool2, insertSql, []);
+		await executeQuery(pool2, updateSql, []);
 		return 1;
 	} else if( status == "2" ) {
 		var insertSql = `delete from tanggodb.friend  where mid = ${sendFromId} and fid = ${sendMyId};`;
