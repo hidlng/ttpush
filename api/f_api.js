@@ -109,7 +109,7 @@ app.post('/friendMsg', async function(req, res) {
 		console.log('******************************');
 		console.log(fchk);
 		if( fchk == 1 ) {
-			content = from + "님이 친구 요청 하였습니다.";
+			content = "친구요청";
 			fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
 		}
 	}
