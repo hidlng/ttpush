@@ -50,7 +50,7 @@ app.post('/fcm', function(req, res) {
 
 
 app.get('/test', function(req, res) {
-		fcm_common.sendFcm('fpp-oGSmSMidexrXUixdzH:APA91bHAbeBdQeec8e2jG-L4muShlR0M0DDHqc5OZCQZLgNbb9_HNYZDH4ntW7P0HQ8xsI6VsoleTKT6B4YslOHRmRIAtgPDxV7sR3lWFsfdzd_ktudvVb52AVhukkGOZtRVoDWxAK5o', 'Test', "1");
+		fcm_common.sendFcm('c0_p1Gn0QE2sB4KvxPV_UH:APA91bEpRVNE5H1lUizRQ7zNgP-rmwSIh7pnWtiJgDNmQxefG4M8yk39RyCn40WUJM24s-RIFhLeMQtr-4vh_aj1HwL_rHuzyqlKCUeI-y31zUA7PBYFn-nGpDADinOsu7R9hp6kK5mc', 'Test', "1");
 		res.json("ok");
 });
 
