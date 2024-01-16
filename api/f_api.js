@@ -118,6 +118,19 @@ app.post('/friendMsg', async function(req, res) {
 });
 
 
+app.post('/friendUpdate', function(req, res) {
+	console.log('******************************');
+	console.log('******************************');
+	console.log('******************************');
+	console.log('******************************');
+	console.log('******************************');
+	console.log('******************************');
+	console.log('******************************');
+	console.log('******************************');
+	console.log(req.body);
+	res.json("ok");
+});
+
 
 app.get('/welcomeMsg', function(req, res) {
 	fcm_common.sendFcm(req.query.pid, "다른트럭과 스치면 자동으로 알려주는 트럭놀이터 탱고입니다.", "4");
