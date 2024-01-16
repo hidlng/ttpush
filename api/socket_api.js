@@ -81,11 +81,7 @@ module.exports = function( _server ) {
 
 								fcm_common.sendFcm(pid, dis_user_nickname, "1");
 							}
-								
-								
-
 						}
-
 					}
 				}
 			});
@@ -117,6 +113,7 @@ module.exports = function( _server ) {
 							dataObj.myicon = userJson.myicon;
 							dataObj.speed = userJson.speed;
 							dataObj.pid = userJson.pid;
+							dataObj.my_user_id = userJson.my_user_id;
 							returnArray.push(dataObj);
 
 							console.log("save data");
@@ -162,7 +159,6 @@ function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
     function deg2rad(deg) {
         return deg * (Math.PI/180)
     }
-
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
     var dLon = deg2rad(lng2-lng1);

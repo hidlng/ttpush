@@ -86,14 +86,18 @@ app.post('/friendMsg', function(req, res) {
 
 	if( content  == "" ) {
 		if( selectIdx == "1" ) { content = "방가요";
-		} else if( selectIdx == "2" ) { content = "힘내요";
+		} else if( selectIdx == "2" ) { 
+			//requestFriend( toUserid, fromUserid ) 
 		} else if( selectIdx == "3" ) { content = "안운요";
 		} else if( selectIdx == "4" ) { content = "함봐요";
 		} else if( selectIdx == "5" ) { content = "졸지마요";
 		}
 	}
 
-    fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
+	if( selectIdx != "2" ) {
+		fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
+	}
+    
 	res.json("ok");
 });
 
@@ -122,4 +126,19 @@ app.get('/getAccList', function(req, res) {
 
 function replaceAll(str, searchStr, replaceStr) {
    return str.split(searchStr).join(replaceStr);
+}
+
+function requestFriend( toUserid, fromUserid ) {
+	pool.getConnection(function(err,connection){
+		var pushSql = `insert into tanggodb.friend ( mid, fid, status, writetime, setting_status ) values ( ${toUserid}, ${fromUserid}, '1', now(), '1' )`;
+        var query = connection.query(pushSql, function (err, rows) {
+            if(err){
+        		console.log(err);
+        		connection.release();
+                res.send(500, 'error');
+                return;
+            }
+			connection.release();
+        });
+    });
 }
