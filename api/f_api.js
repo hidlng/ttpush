@@ -176,7 +176,7 @@ app.get('/getAccList', function(req, res) {
 
 
 app.get('/enteranceFriend', async function(req, res) {
-	var checkSql = ` SELECT a.seq, a.nickname, a.car_number, a.pid, a.ment  FROM tanggodb.userinfo a, tanggodb.friend b where a.seq = b.fid and status = 3 and b.mid = ${req.query.seq} `;
+	var checkSql = ` SELECT a.seq, a.nickname, a.car_number, a.pid, a.ment  FROM tanggodb.userinfo a, tanggodb.friend b where a.seq = b.mid and status = 3 and b.fid = ${req.query.seq} `;
 	var chckData = await executeQuery(pool2, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
