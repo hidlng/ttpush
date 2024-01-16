@@ -101,7 +101,7 @@ app.post('/friendMsg', async function(req, res) {
 	} else {
 		if( fchk == 1 ) {
 			content = "친구요청";
-			fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey, req.body.sendFromId);
+			fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey, req.body.sendMyId);
 		}
 	}
     
