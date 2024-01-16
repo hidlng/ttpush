@@ -78,7 +78,7 @@ app.post('/friendMsg', function(req, res) {
 	var from = req.body.fromUser;
 	var selectIdx = req.body.selectIdx;
 	var sendMykey = req.body.sendMykey;
-
+	
 	console.log(content);
 	console.log(idx);
 	console.log(from);
@@ -87,7 +87,7 @@ app.post('/friendMsg', function(req, res) {
 	if( content  == "" ) {
 		if( selectIdx == "1" ) { content = "방가요";
 		} else if( selectIdx == "2" ) { 
-			//requestFriend( toUserid, fromUserid ) 
+			requestFriend( req.body.sendMyId, req.body.sendFromId ) ;
 		} else if( selectIdx == "3" ) { content = "안운요";
 		} else if( selectIdx == "4" ) { content = "함봐요";
 		} else if( selectIdx == "5" ) { content = "졸지마요";
