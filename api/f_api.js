@@ -3,7 +3,7 @@ var app = module.exports = express();
 var fcm_common = require('../fcm/push');
 var pool = require('../db/config');
 
-var pool2 = require('../config/database');
+var pool2 = require('../db/database');
 
 app.use(function(req, res, next) {
 	
