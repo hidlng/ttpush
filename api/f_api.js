@@ -181,7 +181,18 @@ app.get('/enteranceFriend', async function(req, res) {
 
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
 			console.log(item);
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
 		});
 	}
 });
