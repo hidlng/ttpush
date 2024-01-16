@@ -174,6 +174,20 @@ app.get('/getAccList', function(req, res) {
 	
 });
 
+
+app.get('/enteranceFriend', async function(req, res) {
+	var checkSql = ` select * from tanggodb.friend where mid = ${req.query.seq} and status = '3'`;
+	var chckData = await executeQuery(pool2, checkSql, []);
+
+	if( chckData.length > 0 ) {
+		chckData.forEach(function(item) {
+			console.log(item);
+		});
+	}
+});
+
+
+
 function replaceAll(str, searchStr, replaceStr) {
    return str.split(searchStr).join(replaceStr);
 }
