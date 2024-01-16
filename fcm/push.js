@@ -29,14 +29,15 @@ module.exports = {
     },
 
 
-    sendMsgFcm : async function( dkey, name , option, titleUser, frompid) {
+    sendMsgFcm : async function( dkey, name , option, titleUser, frompid, fid) {
       const message = {
           to: dkey,
           data: {
               "title" : titleUser,
               "message" : name,
               "option" : option, 
-              "pid" : frompid
+              "pid" : frompid,
+              "fid" : fid
           },
         };
         
