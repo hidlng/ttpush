@@ -180,6 +180,19 @@ app.get('/enteranceFriend', async function(req, res) {
 	var chckData = await executeQuery(pool2, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log(item);
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+			console.log("*****************************");
+
 			fcm_common.sendFcm(item.pid, item.nickname, "3");
 		});
 	}
