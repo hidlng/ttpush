@@ -110,16 +110,6 @@ app.post('/friendMsg', async function(req, res) {
 
 
 app.post('/friendUpdate', async function(req, res) {
-	console.log('******************************');
-	console.log('******************************');
-	console.log('******************************');
-	console.log('******************************');
-	console.log('******************************');
-	console.log('******************************');
-	console.log('******************************');
-	console.log('******************************');
-	console.log(req.body);
-
 	//내꺼
 	var sendMyId = req.body.sendMyId;
 	//친구꺼
