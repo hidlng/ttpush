@@ -97,6 +97,15 @@ app.post('/friendMsg', async function(req, res) {
 	if( selectIdx != "2" ) {
 		fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
 	} else {
+		console.log('******************************');
+		console.log('******************************');
+		console.log('******************************');
+		console.log('******************************');
+		console.log('******************************');
+		console.log('******************************');
+		console.log('******************************');
+		console.log('******************************');
+		console.log(fchk);
 		if( fchk == 1 ) {
 			content = from + "님이 친구 요청 하였습니다.";
 			fcm_common.sendMsgFcm(idx, content, "5", from, sendMykey);
