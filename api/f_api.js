@@ -193,7 +193,7 @@ app.get('/enteranceFriend', async function(req, res) {
 			console.log("*****************************");
 			console.log("*****************************");
 
-			fcm_common.sendFcm(item.pid, item.nickname, "3");
+			fcm_common.sendFcm(item.pid, req.query.myName, "3");
 		});
 	}
 });
