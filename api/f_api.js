@@ -3,6 +3,8 @@ var app = module.exports = express();
 var fcm_common = require('../fcm/push');
 var pool = require('../db/config');
 
+var pool2 = require('../config/database');
+
 app.use(function(req, res, next) {
 	
 	res.header("Cache-Control", "no-store");
@@ -142,37 +144,16 @@ function replaceAll(str, searchStr, replaceStr) {
    return str.split(searchStr).join(replaceStr);
 }
 
-function requestFriend( toUserid, fromUserid ) {
-	var returnVal = 0;
-	pool.getConnection(function(err,connection){
-		var checkSql = ` select * from tanggodb.friend where mid = ${toUserid} and fid = ${fromUserid} `;
+async function requestFriend( toUserid, fromUserid ) {
+	var checkSql = ` select * from tanggodb.friend where mid = ${toUserid} and fid = ${fromUserid} `;
+	var chckData = await executeQuery(pool2, checkSql, []);
 
-		connection.query(checkSql, function (err, rows) {
-			if(err){
-        		console.log(err);
-        		connection.release();
-                res.send(500, 'error');
-                return;
-            }
-
-			if( rows.length > 0 ) {
-				connection.release();
-				returnVal = 2;
-			} else {
-				var pushSql = `insert into tanggodb.friend ( mid, fid, status, writetime, setting_status ) values ( ${toUserid}, ${fromUserid}, '1', now(), '1' )`;
-				connection.query(pushSql, function (err, rows) {
-					if(err){
-						console.log(err);
-						connection.release();
-						res.send(500, 'error');
-						return;
-					}
-					connection.release();
-					returnVal = 1;
-				});
-			}
-		});
-    });
-
-	return returnVal;
+	if( chckData.length > 0 ) {
+		return 2;
+	} else {
+		var insertSql = `insert into tanggodb.friend ( mid, fid, status, writetime, setting_status ) values ( ${toUserid}, ${fromUserid}, '1', now(), '1' )`;
+		await executeQuery(pool2, insertSql, []);
+		return 1;
+	}
+	
 }
