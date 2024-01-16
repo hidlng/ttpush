@@ -135,6 +135,18 @@ app.post('/friendUpdate', async function(req, res) {
 
 
 app.post('/updateMyPid', async function(req, res) {
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log(req.body);
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+
 	var updateSql = `update tanggodb.userinfo set pid = ' ${req.body.pid}' where seq = ${req.body.seq}; `;
 	await executeQuery(pool2, updateSql, []);
 	res.json("ok");
