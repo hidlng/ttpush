@@ -15,7 +15,7 @@ module.exports = function( _server ) {
 		ws.on('message', async function(message){
 			var result = JSON.parse(message.toString("utf8"));
 			
-			console.log(result.carnumber + ' / ' +	result.lng + ' / ' + result.lat + ' / ' + result.nickname + ' / ' + result.user_id + ' / ' + result.myicon + ' / '+ result.pid + ' / '+ result.speed );
+			console.log(  result.actName + ' / '+ result.carnumber + ' / ' +	result.lng + ' / ' + result.lat + ' / ' + result.nickname + ' / ' + result.user_id + ' / ' + result.myicon + ' / '+ result.pid + ' / '+ result.speed );
 			
 			var lng = "";
 			var lat  = "";
