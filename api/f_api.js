@@ -117,6 +117,20 @@ app.post('/friendUpdate', async function(req, res) {
 	//상태
 	var status = req.body.status;
 
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log(sendMyId);
+	console.log(sendFromId);
+	console.log(status);
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+
 	if( status == "3" ) {
 		var insertSql = `insert into tanggodb.friend ( mid, fid, status, writetime, setting_status ) values ( ${sendMyId}, ${sendFromId}, '3', now(), '1' )`;
 		await executeQuery(pool2, insertSql, []);
