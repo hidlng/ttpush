@@ -199,7 +199,7 @@ app.get('/nearMyFriend',  async function(req, res) {
 					var dis_user_nickname = userJson.nickname;
 					var dis_pid = userJson.pid;
 
-					console.log(user);
+					console.log(dis_user_nickname);
 					//fcm_common.sendFcmLong(req.query.pid, "", "1", data.length);
 				}
 			}
