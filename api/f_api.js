@@ -210,7 +210,7 @@ app.get('/nearMyFriend',  async function(req, res) {
 
 			console.log(isNear);
 			if( isNear == true ) {
-				//fcm_common.sendFcmLong(req.query.pid, "", "1", data.length);
+				fcm_common.sendFcmLong(req.query.pid, "", "1", data.length);
 			}
 		}
 	});
