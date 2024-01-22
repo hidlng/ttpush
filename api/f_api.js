@@ -187,7 +187,6 @@ app.get('/nearMyFriend',  async function(req, res) {
 	console.log('**********************');
 
 	await redisClient.georadius("userposition", req.query.lng, req.query.lat, 10000, "m", async function (err, data) {
-		console.log( data );
 		if( data != undefined && data.length > 0 ) {
 			var isNear = false;
 			var fCount = 0;
@@ -197,15 +196,13 @@ app.get('/nearMyFriend',  async function(req, res) {
 				if( req.query.myid != userid ) {
 					var user = await redisClient.v4.get(`user:${userid}`); 
 					var userJson = await JSON.parse(user);
-					var dis_user_oid = userJson.user_id;
 					var dis_user_nickname = userJson.nickname;
-					var dis_pid = userJson.pid;
-
 					console.log(dis_user_nickname);
 					if(dis_user_nickname != undefined) {
 						isNear = true;
-						fCount ++;
+						fCount++;
 					}
+					console.log(fCount);
 				}
 			}
 
