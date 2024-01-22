@@ -51,7 +51,8 @@ module.exports = function( _server ) {
 			redisClient.v4.expire(`user:${my_user_id}`, 5*60 );
 
 			await redisClient.geoadd("userposition", lng, lat, my_user_id);
-
+			// 예를 들어, 3600초(1시간) 후에 만료되도록 설정
+			await redisClient.expire("userposition", 300);
 
 			
 			var returnArray = [];
