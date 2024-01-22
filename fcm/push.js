@@ -13,7 +13,10 @@ module.exports = {
                 "title" : "TANGO 스치",
                 "message" : name,
 	        			"option" : option,
-                "pid" : ''
+                "pid" : '', 
+                "fid" : '', 
+                "count" : '0'
+
             },
           };
           
@@ -28,6 +31,31 @@ module.exports = {
           }
     },
 
+    sendFcmLong : async function( dkey, name , option, count) {
+      const message = {
+          to: dkey,
+          data: {
+              "title" : "TANGO 스치",
+              "message" : "10km 이내에 반가운 동료 " + count + "명이 있습니다.",
+              "option" : option,
+              "pid" : '', 
+              "fid" : '', 
+              "count" : count
+          },
+        };
+        
+        if( dkey != undefined ) { 
+          fcm.send(message, (err, response) => {
+              if (err) {
+                console.log(`Error: ${err}`);
+              } else {
+                console.log(`Response: ${response}`);
+              }
+            });
+        }
+  },
+
+
 
     sendMsgFcm : async function( dkey, name , option, titleUser, frompid, fid) {
       const message = {
@@ -37,7 +65,8 @@ module.exports = {
               "message" : name,
               "option" : option, 
               "pid" : frompid,
-              "fid" : fid
+              "fid" : fid, 
+              "count" : '0'
           },
         };
         
