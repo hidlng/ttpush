@@ -187,9 +187,22 @@ app.get('/nearMyFriend',  async function(req, res) {
 	console.log('**********************');
 
 	await redisClient.georadius("userposition", req.query.lng, req.query.lat, 10000, "m", async function (err, data) {
+		console.log( data );
 		if( data != undefined && data.length > 0 ) {
-			console.log(data.length);
-			fcm_common.sendFcmLong(req.query.pid, "", "1", data.length);
+			for( var i = 0; i < data.length; i++ ) {
+				var userid = data[i];
+				console.log( my_user_id + ' / ' + userid );
+				if( my_user_id != userid ) {
+					var user = await redisClient.v4.get(`user:${userid}`); 
+					var userJson = await JSON.parse(user);
+					var dis_user_oid = userJson.user_id;
+					var dis_user_nickname = userJson.nickname;
+					var dis_pid = userJson.pid;
+
+					console.log(user);
+					//fcm_common.sendFcmLong(req.query.pid, "", "1", data.length);
+				}
+			}
 		}
 	});
 });
