@@ -195,14 +195,19 @@ app.get('/nearMyFriend',  async function(req, res) {
 				console.log(  req.query.myid + ' / ' + userid );
 				if( req.query.myid != userid ) {
 					var user = await redisClient.v4.get(`user:${userid}`); 
+					console.log(user);
 					var userJson = await JSON.parse(user);
-					var dis_user_nickname = userJson.nickname;
-					console.log(dis_user_nickname);
-					if(dis_user_nickname != undefined) {
-						isNear = true;
-						fCount++;
+					console.log(userJson);
+					if( userJson != undefined ) {
+						var dis_user_nickname = userJson.nickname;
+						console.log(dis_user_nickname);
+						if(dis_user_nickname != undefined) {
+							isNear = true;
+							fCount++;
+						}
+						console.log(fCount);
+	
 					}
-					console.log(fCount);
 				}
 			}
 
