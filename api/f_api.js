@@ -192,8 +192,8 @@ app.get('/nearMyFriend',  async function(req, res) {
 			var isNear = false;
 			for( var i = 0; i < data.length; i++ ) {
 				var userid = data[i];
-				console.log( my_user_id + ' / ' + userid );
-				if( my_user_id != userid ) {
+				console.log(  req.query.myid + ' / ' + userid );
+				if( req.query.myid != userid ) {
 					var user = await redisClient.v4.get(`user:${userid}`); 
 					var userJson = await JSON.parse(user);
 					var dis_user_oid = userJson.user_id;
