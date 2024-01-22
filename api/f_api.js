@@ -171,35 +171,18 @@ app.get('/welcomeMsg', function(req, res) {
 
 
 app.get('/nearMyFriend',  async function(req, res) {
-	console.log('**********************');
-	console.log('**********************');
-	console.log('**********************');
-	console.log('**********************');
-	console.log('**********************');
-	console.log('**********************');
-
-	console.log(req.query);
-	console.log('**********************');
-	console.log('**********************');
-	console.log('**********************');
-	console.log('**********************');
-	console.log('**********************');
-	console.log('**********************');
-
 	await redisClient.georadius("userposition", req.query.lng, req.query.lat, 10000, "m", async function (err, data) {
 		if( data != undefined && data.length > 0 ) {
 			var isNear = false;
 			var fCount = 0;
 			for( var i = 0; i < data.length; i++ ) {
 				var userid = data[i];
-				console.log(  req.query.myid + ' / ' + userid );
 				if( req.query.myid != userid ) {
 					var user = await redisClient.v4.get(`user:${userid}`); 
 					if( user != null ) {
 						var userJson = await JSON.parse(user);
 						if( userJson != undefined ) {
 							var dis_user_nickname = userJson.nickname;
-							console.log(dis_user_nickname);
 							if(dis_user_nickname != undefined) {
 								isNear = true;
 								fCount++;
@@ -210,9 +193,8 @@ app.get('/nearMyFriend',  async function(req, res) {
 				}
 			}
 
-			console.log(isNear);
 			if( fCount > 0 ) {
-				fcm_common.sendFcmLong(req.query.pid, "", "1", fCount);
+				fcm_common.sendFcmLong(req.query.pid, "", "8", fCount);
 			}
 		}
 	});
