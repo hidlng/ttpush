@@ -87,11 +87,11 @@ module.exports = function( _server ) {
 			});
 
 
-			await redisClient.georadius("userposition", lng, lat, 10000, "m", async function (err, data) {
-				if( data != undefined && data.length > 0 ) {
-					fcm_common.sendFcmLong(pid, "", "8",data.length);
-				}
-			});
+			// await redisClient.georadius("userposition", lng, lat, 10000, "m", async function (err, data) {
+			// 	if( data != undefined && data.length > 0 ) {
+			// 		fcm_common.sendFcmLong(pid, "", "8",data.length);
+			// 	}
+			// });
 
 
 			redisClient.keys('*user:*', async function (err, keys) {
