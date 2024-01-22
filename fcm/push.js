@@ -36,7 +36,7 @@ module.exports = {
           to: dkey,
           data: {
               "title" : "TANGO 스치",
-              "message" : "10km 이내에 반가운 동료들이 있습니다.",
+              "message" : "10km 이내에 반가운 동료 " + count + "명이 있습니다.",
               "option" : option,
               "pid" : '', 
               "fid" : '', 

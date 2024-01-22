@@ -190,6 +190,7 @@ app.get('/nearMyFriend',  async function(req, res) {
 		console.log( data );
 		if( data != undefined && data.length > 0 ) {
 			var isNear = false;
+			var fCount = 0;
 			for( var i = 0; i < data.length; i++ ) {
 				var userid = data[i];
 				console.log(  req.query.myid + ' / ' + userid );
@@ -203,14 +204,14 @@ app.get('/nearMyFriend',  async function(req, res) {
 					console.log(dis_user_nickname);
 					if(dis_user_nickname != undefined) {
 						isNear = true;
-						break;
+						fCount ++;
 					}
 				}
 			}
 
 			console.log(isNear);
 			if( isNear == true ) {
-				fcm_common.sendFcmLong(req.query.pid, "", "1", data.length);
+				fcm_common.sendFcmLong(req.query.pid, "", "1", fCount);
 			}
 		}
 	});
