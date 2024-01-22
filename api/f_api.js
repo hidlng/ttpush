@@ -171,9 +171,25 @@ app.get('/welcomeMsg', function(req, res) {
 
 
 app.get('/nearMyFriend',  async function(req, res) {
-	await redisClient.georadius("userposition", lng, lat, 10000, "m", async function (err, data) {
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+
+	console.log(req.query);
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+	console.log('**********************');
+
+	await redisClient.georadius("userposition", req.query.lng, req.query.lat, 10000, "m", async function (err, data) {
 		if( data != undefined && data.length > 0 ) {
-			fcm_common.sendFcmLong(pid, "", "1", data.length);
+			console.log(data.length);
+			fcm_common.sendFcmLong(req.query.pid, "", "1", data.length);
 		}
 	});
 });
