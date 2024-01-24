@@ -55,10 +55,10 @@ app.get('/test', function(req, res) {
 	const radius = 20000; // 20000 킬로미터
 	
 	// "hiddenList" 키에 저장된 모든 지리 공간 데이터 검색
-	redisClient.georadius("hiddenList", longitude, latitude, radius, "km", 'WITHCOORD', (err, res) => {
+	redisClient.georadius("hiddenList", longitude, latitude, radius, "km", 'WITHCOORD', (err, data) => {
 		if (err) throw err;
-		console.log(res); // 검색 결과 출력
-		res.json(res);
+		console.log(data); // 검색 결과 출력
+		res.json(data);
 	});
 });
 
