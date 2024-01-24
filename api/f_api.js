@@ -50,8 +50,15 @@ app.post('/fcm', function(req, res) {
 
 
 app.get('/test', function(req, res) {
-		fcm_common.sendFcm('c0_p1Gn0QE2sB4KvxPV_UH:APA91bEpRVNE5H1lUizRQ7zNgP-rmwSIh7pnWtiJgDNmQxefG4M8yk39RyCn40WUJM24s-RIFhLeMQtr-4vh_aj1HwL_rHuzyqlKCUeI-y31zUA7PBYFn-nGpDADinOsu7R9hp6kK5mc', 'Test', "1");
-		res.json("ok");
+	const longitude = 0;
+	const latitude = 0;
+	const radius = 20000; // 20000 킬로미터
+	
+	// "hiddenList" 키에 저장된 모든 지리 공간 데이터 검색
+	redisClient.georadius("hiddenList", longitude, latitude, radius, "km", (err, res) => {
+		if (err) throw err;
+		console.log(res); // 검색 결과 출력
+	});
 });
 
 app.get('/del', function(req, res) {
