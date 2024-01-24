@@ -55,7 +55,7 @@ app.get('/test', async function(req, res) {
 	const radius = 20000; // 20000 킬로미터
 	
 
-	await redisClient.geoadd("hiddenList", 126.9771397, 37.5366059,  my_user_id);
+	await redisClient.geoadd("hiddenList", 126.9771397, 37.5366059,  7);
 	// 예를 들어, 3600초(1시간) 후에 만료되도록 설정
 	await redisClient.expire("hiddenList", 300);
 	
