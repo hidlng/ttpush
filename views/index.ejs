@@ -12,56 +12,133 @@
     <button class="favorite styled"type="button" onclick="getHiddenLocation()">히든위치업데이트</button>
 
     <div id="map" style="width:1900px;height:900px;"></div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5477f0a7fd496c0131aa5671cf01300f"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpVXRp7AAhj8_3d-v3LyF8Qcfm77Mdbuk"></script>
 
   <script>
     var markers = [];
-    var infowindows = [];
-    var userList = new Array();
-    var gpsList = new Array();
-    //init Map
-    var container = document.getElementById('map');
-    var options = {
-        center: new kakao.maps.LatLng(36.4425266, 127.9602451),
-        level: 12
-    };
-  
-    var map = new kakao.maps.Map(container, options);
 
-    kakao.maps.event.addListener(map, 'center_changed', function() {
-        // 지도의  레벨을 얻어옵니다
-        var level = map.getLevel();
-        // 지도의 중심좌표를 얻어옵니다 
-        var latlng = map.getCenter(); 
-        // 지도 중심을 이동 시킵니다
-        map.setCenter(latlng);
-    });
 
     /*****************************************************/
     getVersion();
     getHiddenLocation();
+    initMap();
 
-    function getRandomCoordinates(numberOfCoordinates) {
-      const coordinates = [];
-      for (let i = 0; i < numberOfCoordinates; i++) {
-          const latitude = 33 + Math.random() * (38 - 33);
-          const longitude = 126 + Math.random() * (129 - 126);
-          coordinates.push({ latitude, longitude });
+    function initMap() {
 
-          var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
+        var today = new Date();
+        var hours = today.getHours(); // 시
 
-          // 마커를 생성합니다
-          var marker = new kakao.maps.Marker({
-              position: markerPosition
-          });
+        var myStyles =[
+          {
+                "featureType": "poi",
+                "stylers": [
+                  { "visibility": "off" }
+                ]
+          }
+        ];
 
-          // 마커가 지도 위에 표시되도록 설정합니다
-          markers.push(marker);
-          marker.setMap(map);
+        if( parseInt(hours) > 17 || parseInt(hours) < 9 ) {
+            $('#infolayer').css('color', '#fff');
+            $('#infolayer').css('background-color', 'rgba( 0, 0, 0, 0.1 )');
 
-      }
-      return coordinates;
+            myStyles =  [
+                {
+                    "featureType": "poi",
+                    "stylers": [
+                      { "visibility": "off" }
+                    ]
+                },
+                { "elementType": "geometry", "stylers": [{ "color": "#242f3e" }] },
+                { "elementType": "labels.text.stroke", "stylers": [{ "color": "#242f3e" }] },
+                { "elementType": "labels.text.fill", "stylers": [{ "color": "#746855" }] },
+                {
+                "featureType": "administrative.locality",
+                "elementType": "labels.text.fill",
+                "stylers": [{ "color": "#d59563" }],
+                },
+                {
+                "featureType": "poi",
+                "elementType": "labels.text.fill",
+                "stylers": [{ "color": "#d59563" }],
+                },
+                {
+                'featureType': "poi.park",
+                'elementType': "geometry",
+                'stylers': [{ "color": "#263c3f" }],
+                },
+                {
+                "featureType": "poi.park",
+                "elementType": "labels.text.fill",
+                "stylers": [{ 'color': "#6b9a76" }],
+                },
+                {
+                "featureType": "road",
+                "elementType": "geometry",
+                "stylers": [{ "color": "#38414e" }],
+                },
+                {
+                "featureType": "road",
+                "elementType": "geometry.stroke",
+                "stylers": [{ "color": "#212a37" }],
+                },
+                {
+                "featureType": "road",
+                "elementType": "labels.text.fill",
+                "stylers": [{ "color": "#9ca5b3" }],
+                },
+                {
+                "featureType": "road.highway",
+                "elementType": "geometry",
+                "stylers": [{ "color": "#746855" }],
+                },
+                {
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [{ "color": "#1f2835" }],
+                },
+                {
+                "featureType": "road.highway",
+                "elementType": "labels.text.fill",
+                "stylers": [{ "color": "#f3d19c" }],
+                },
+                {
+                "featureType": "transit",
+                "elementType": "geometry",
+                "stylers": [{ "color": "#2f3948" }],
+                },
+                {
+                "featureType": "transit.station",
+                "elementType": "labels.text.fill",
+                "stylers": [{ "color": "#d59563" }],
+                },
+                {
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [{ "color": "#17263c" }],
+                },
+                {
+                "featureType": "water",
+                "elementType": "labels.text.fill",
+                "stylers": [{ "color": "#515c6d" }],
+                },
+                {
+                "featureType": "water",
+                "elementType": "labels.text.stroke",
+                "stylers": [{ "color": "#17263c" }],
+                },
+            ]
+
+        }
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            mapTypeControl: false,
+            center: {lat: 37.534273, lng: 126.793246},
+            zoom: 10,
+            fullscreenControl: false,
+            styles : myStyles
+        });
     }
+
 
 
     function clearMarkers() {
@@ -84,12 +161,13 @@
                     var obj = result[i][1];
                     var lng = obj[0];
                     var lat = obj[1];
-                    var markerPosition  = new kakao.maps.LatLng(lat, lng); 
-
-                    // 마커를 생성합니다
-                    var marker = new kakao.maps.Marker({
-                        position: markerPosition
+                    var myLatLng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+                    marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map,
+                      title: 'hidden'
                     });
+
 
                     // 마커가 지도 위에 표시되도록 설정합니다
                     markers.push(marker);
