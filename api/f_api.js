@@ -49,10 +49,15 @@ app.post('/fcm', function(req, res) {
 });
 
 
-app.get('/test', function(req, res) {
+app.get('/test', async function(req, res) {
 	const longitude = 0;
 	const latitude = 0;
 	const radius = 20000; // 20000 킬로미터
+	
+
+	await redisClient.geoadd("hiddenList", 126.9771397, 37.5366059,  my_user_id);
+	// 예를 들어, 3600초(1시간) 후에 만료되도록 설정
+	await redisClient.expire("hiddenList", 300);
 	
 	// "hiddenList" 키에 저장된 모든 지리 공간 데이터 검색
 	redisClient.georadius("hiddenList", longitude, latitude, radius, "km", 'WITHCOORD', (err, data) => {
