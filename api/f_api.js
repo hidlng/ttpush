@@ -86,6 +86,36 @@ app.get('/del', function(req, res) {
 });
 
 
+app.get('/getNowTango', function(req, res) {
+	redisClient.keys('*user:*', async function (err, keys) {
+		if (err) {
+			console.log(err);
+			return;
+		};
+		var returnArray = new Array();
+		if( keys != undefined && keys.length > 0 ) {
+			for( var i = 0; i < keys.length; i++ ) {
+				var d = keys[i];
+				var userid = d.substring(5);
+				var user = await redisClient.v4.get(`user:${userid}`); 
+				var userJson = await JSON.parse(user);
+				var dis_pid = userJson.pid;
+				var dataObj = new Object();
+				dataObj.lng  = userJson.lng;
+				dataObj.lat  = userJson.lat;
+				dataObj.nickname  = userJson.nickname;
+				dataObj.myicon = userJson.myicon;
+				dataObj.speed = userJson.speed;
+				dataObj.pid = userJson.pid;
+				dataObj.my_user_id = userJson.user_id;
+				returnArray.push(dataObj);
+			}
+		}
+		res.json(returnArray);
+	});
+ });
+
+
 app.post('/friendMsg', async function(req, res) {
 	console.log(req.body);
 	var content = req.body.content

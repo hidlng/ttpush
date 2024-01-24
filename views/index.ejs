@@ -5,11 +5,28 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+      .overlay-content {
+        position: absolute;
+        transform: translate(-50%, -100%); /* 마커 위에 정확히 배치 */
+      }
+      .overlay-label {
+        /* 라벨 스타일 */
+        background-color: white;
+        padding: 2px;
+        text-align: center;
+      }
+      .overlay-image {
+        /* 이미지 스타일 */
+        width: 35px;  /* 이미지 크기 */
+        height: 35px;
+      }
+    </style>
   </head>
   <body style="padding:0;" >
     <input type="text" id="content" name="content"/>
     <button class="favorite styled"type="button" onclick="updateVersion()">버전업데이트</button>
-    <button class="favorite styled"type="button" onclick="getHiddenLocation()">히든위치업데이트</button>
+    <button class="favorite styled"type="button" onclick="getHiddenLocation()">위치업데이트</button>
 
     <div id="map" style="width:1900px;height:900px;"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpVXRp7AAhj8_3d-v3LyF8Qcfm77Mdbuk"></script>
@@ -173,6 +190,8 @@
                     markers.push(marker);
                     marker.setMap(map);
                 }
+
+                getNowTango();
             }, 
             
             error: function(request, status, error) {
@@ -181,6 +200,92 @@
       });
     }
 
+
+    
+    // 사용자 정의 오버레이 정의
+    var CustomOverlay = function(position, imageUrl, label, map) {
+      this.position = position;
+      this.imageUrl = imageUrl;
+      this.label = label;
+      this.map = map;
+      this.div = null;
+      markers.push(this); 
+      this.setMap(map);
+    };
+
+    CustomOverlay.prototype = new google.maps.OverlayView();
+
+    CustomOverlay.prototype.onAdd = function() {
+      var div = document.createElement('div');
+      div.className = 'overlay-content';
+
+      var image = document.createElement('img');
+      image.className = 'overlay-image';
+      image.src = this.imageUrl;
+      div.appendChild(image);
+
+      var label = document.createElement('div');
+      label.className = 'overlay-label';
+      label.textContent = this.label;
+      div.appendChild(label);
+
+      this.div = div;
+
+      var panes = this.getPanes();
+      panes.overlayImage.appendChild(div);
+    };
+
+    CustomOverlay.prototype.draw = function() {
+      var overlayProjection = this.getProjection();
+      var position = overlayProjection.fromLatLngToDivPixel(this.position);
+
+      var div = this.div;
+      div.style.left = position.x + 'px';
+      div.style.top = position.y + 'px';
+    };
+
+    CustomOverlay.prototype.onRemove = function() {
+      if (this.div) {
+        this.div.parentNode.removeChild(this.div);
+        this.div = null;
+      }
+    };
+
+    
+
+    function getNowTango() {
+            $.ajax({
+            type : 'GET',
+            url : '/f_api/getNowTango',
+            dataType : 'json',
+            data : {
+            },
+            success : function(result) {
+               for( var i = 0; i < result.length; i ++ ) {
+                    var obj = result[i];
+                    var lng = obj.lng;
+                    var lat = obj.lat;
+                    var myLatLng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+
+                    var image = {
+                        url: '/images/7.png', // 이미지 URL
+                        scaledSize: new google.maps.Size(30, 30) // 이미지 크기 조절 (너비, 높이)
+                    };
+
+                    new CustomOverlay(myLatLng, '/images/7.png',  obj.nickname, map);
+
+                    // 마커가 지도 위에 표시되도록 설정합니다
+                    
+                    marker.setMap(map);
+                }
+            }, 
+            
+            error: function(request, status, error) {
+
+            }
+
+          });
+    }
 
     function getVersion() {
           $('#content').val("");	
@@ -195,7 +300,6 @@
             }, 
             
             error: function(request, status, error) {
-
             }
 
           });
