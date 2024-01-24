@@ -28,12 +28,13 @@
     <button class="favorite styled"type="button" onclick="updateVersion()">버전업데이트</button>
     <button class="favorite styled"type="button" onclick="getHiddenLocation()">위치업데이트</button>
 
-    <div id="map" style="width:1900px;height:900px;"></div>
+    <div id="map" style="width:1900px;height:900px;margin-top: 10px;"></div>
+    <div id="nowCount" style="position: absolute; top: 60px; left: 30px; color: white; font-size: 60px;">
+    </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpVXRp7AAhj8_3d-v3LyF8Qcfm77Mdbuk"></script>
 
   <script>
     var markers = [];
-
 
     /*****************************************************/
     getVersion();
@@ -261,6 +262,7 @@
             data : {
             },
             success : function(result) {
+               $('#nowCount').html('현재 : ' +  result.length + ' 명')
                for( var i = 0; i < result.length; i ++ ) {
                     var obj = result[i];
                     var lng = obj.lng;
