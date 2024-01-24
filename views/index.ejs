@@ -6,24 +6,15 @@
     <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
-  <body style="padding:0;background-color: black;" >
-    <select name="userlist" id="userlist"></select>
-    <select name="userlist2" id="userlist2"></select>
+  <body style="padding:0;" >
     <input type="text" id="content" name="content"/>
-    <button class="favorite styled"type="button" onclick="test()">push</button>
-    <button class="favorite styled"type="button" onclick="alltest()">all</button>
-    <button class="favorite styled" type="button" onclick="initarr()">init</button>
-    <button class="favorite styled" type="button" onclick="calculation()">distance</button>
-    <button class="favorite styled" type="button" onclick="reload()">Refresh</button>
-
+    <button class="favorite styled"type="button" onclick="updateVersion()">버전업데이트</button>
+    <button class="favorite styled"type="button" onclick="getHiddenLocation()">히든위치업데이트</button>
 
     <div id="map" style="width:1900px;height:900px;"></div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5477f0a7fd496c0131aa5671cf01300f"></script>
-    
-    <script>
 
-    </script>
-    <script>
+  <script>
     var markers = [];
     var infowindows = [];
     var userList = new Array();
@@ -46,225 +37,114 @@
         map.setCenter(latlng);
     });
 
-
-	//Call list
-	getUserList();
-    getGpsList();
-
-    const randomCoordinates = getRandomCoordinates(5);
-
-
+    /*****************************************************/
+    getVersion();
+    getHiddenLocation();
 
     function getRandomCoordinates(numberOfCoordinates) {
-    const coordinates = [];
-    for (let i = 0; i < numberOfCoordinates; i++) {
-        const latitude = 33 + Math.random() * (38 - 33);
-        const longitude = 126 + Math.random() * (129 - 126);
-        coordinates.push({ latitude, longitude });
+      const coordinates = [];
+      for (let i = 0; i < numberOfCoordinates; i++) {
+          const latitude = 33 + Math.random() * (38 - 33);
+          const longitude = 126 + Math.random() * (129 - 126);
+          coordinates.push({ latitude, longitude });
 
-        var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
+          var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
 
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-            position: markerPosition
-        });
+          // 마커를 생성합니다
+          var marker = new kakao.maps.Marker({
+              position: markerPosition
+          });
 
-        // 마커가 지도 위에 표시되도록 설정합니다
-        markers.push(marker);
-        marker.setMap(map);
+          // 마커가 지도 위에 표시되도록 설정합니다
+          markers.push(marker);
+          marker.setMap(map);
 
-    }
-    return coordinates;
-}
-
-
-
-    function calculation() {
-      var user1 = $('#userlist').val();
-      var user2 = $('#userlist2').val();
-
-      var u1 = user1.split('|');
-      var u2 = user2.split('|');
-
-      var obj1 = null;
-      var obj2 = null;
-
-      for( var i = 0; i < gpsList.length; i++ ) {
-        var r = gpsList[i];
-        if( r.phone == u1[1] ) {
-          obj1 = r;
-        }
-
-        if( r.phone == u2[1] ) {
-          obj2 = r;
-        }
       }
-      alert("두사람의 거리는 " + getDistanceFromLatLonInKm(obj1.lat, obj1.lng,obj2.lat, obj2.lng) + "m 입니다.");
+      return coordinates;
     }
 
 
-    function reload() {
-      //Call list
-      getUserList();
-      getGpsList();
+    function clearMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers = []; // 배열을 비웁니다.
     }
 
-    function getGpsList() {
-      gpsList = null;
-      gpsList = new Array();
+    function getHiddenLocation() {
+      clearMarkers();
       $.ajax({
-      type : 'get',
-      url : '/test_api/getArr',
-      dataType : 'json',
-      data : {
+            type : 'GET',
+            url : '/test_api/getHiddenLocation',
+            dataType : 'json',
+            data : {
+            },
+            success : function(result) {
+                for( var i = 0; i < result.length; i ++ ) {
+                    var obj = result[i][1];
+                    var lng = obj[0];
+                    var lat = obj[1];
+                    var markerPosition  = new kakao.maps.LatLng(lat, lng); 
 
-      },
-      success : function(result) {
-          if( result != undefined && result.length > 0 ) {
-            if( markers.length > 0 ) {
-              removeMarker();
+                    // 마커를 생성합니다
+                    var marker = new kakao.maps.Marker({
+                        position: markerPosition
+                    });
+
+                    // 마커가 지도 위에 표시되도록 설정합니다
+                    markers.push(marker);
+                    marker.setMap(map);
+                }
+            }, 
+            
+            error: function(request, status, error) {
             }
-            for( var i = 0; i < result.length; i++ ) {
-              var obj = result[i];
-              gpsList.push(obj);
-              // 마커가 표시될 위치입니다 
-              var markerPosition  = new kakao.maps.LatLng(obj.lat, obj.lng); 
 
-              // 마커를 생성합니다
-              var marker = new kakao.maps.Marker({
-                  position: markerPosition
-              });
-
-              // 마커가 지도 위에 표시되도록 설정합니다
-              markers.push(marker);
-              marker.setMap(map);
-
-              var iwContent = '<div style="padding:5px;color:blue;width:100px;text-align:center;">'+obj.user_name+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                  iwPosition = new kakao.maps.LatLng(obj.lat, obj.lng); //인포윈도우 표시 위치입니다
-
-              // 인포윈도우를 생성합니다
-              var infowindow = new kakao.maps.InfoWindow({
-                  position : iwPosition, 
-                  content : iwContent 
-              });
-                
-              infowindows.push(infowindow);
-              // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-              infowindow.open(map, marker); 
-            }
-          }
-
-      }, error: function(request, status, error) {}});
+      });
     }
 
-	  function getUserList() {
-      $('#userlist').html("");	
-          $('#userlist2').html("");	
-          userList = null;
-          userList = new Array();
-        $.ajax({
-			type : 'POST',
-			url : '/test_api/userlist',
-			dataType : 'json',
-			data : {
-			},
-			success : function(result) {
-				if( result != undefined && result.length > 0 ) {
-					var resultContent = "";
-					for( var i = 0; i < result.length; i++ ) {
-						var obj = result[i];
-						resultContent += "<option value='"+obj.pid+"|"+obj.phone+"'>"+obj.name+"</option>"
-            userList.push(obj);
-					}
-					$('#userlist').html(resultContent);	
-          $('#userlist2').html(resultContent);	
-				}
-			}, error: function(request, status, error) {
-			}
-        });
-      }
+
+    function getVersion() {
+          $('#content').val("");	
+            $.ajax({
+            type : 'GET',
+            url : '/test_api/getNowVersion',
+            dataType : 'json',
+            data : {
+            },
+            success : function(result) {
+                $('#content').val(result[0].android);
+            }, 
+            
+            error: function(request, status, error) {
+
+            }
+
+          });
+    }
       
-	  function test() {
-        var content = $('#content').val();
-		var dkey = $('#userlist').val();
-		
 
-    var u1 = dkey.split('|');
-    dkey = u1[0];
+    function updateVersion() {
+            var android = $('#content').val();	
+            $.ajax({
+            type : 'GET',
+            url : '/test_api/updateVersion?android='+android,
+            dataType : 'json',
+            data : {
+            },
+            success : function(result) {
+              getVersion();
+            }, 
+            
+            error: function(request, status, error) {
 
-        $.ajax({
-			type : 'POST',
-			url : '/test_api/fcm_test',
-			dataType : 'json',
-			data : {
-				"dkey" : dkey,
-				"content" : content
-			},
-			success : function(result) {
-			}, error: function(request, status, error) {
-			}
-        });
-      }
-	  
-	  function alltest() {
-        var content = $('#content').val();
-		
-        $.ajax({
-			type : 'POST',
-			url : '/test_api/allfcm',
-			dataType : 'json',
-			data : {
-				"content" : content
-			},
-			success : function(result) {
-			}, error: function(request, status, error) {
-			}
-        });
-      }
-	  
-	  function initarr() {
-		$.ajax({
-			type : 'POST',
-			url : '/test_api/initArr',
-			dataType : 'json',
-			data : {
-			},
-			success : function(result) {
-			alert("init");
-			}, error: function(request, status, error) {
-			}
-        });
-	  }
+            }
 
+          });
+    }
+   
 
-    function removeMarker() {
-    for ( var i = 0; i < markers.length; i++ ) {
-        markers[i].setMap(null);
-    }   
-    markers = [];
-
-    for ( var j = 0; j < infowindows.length; j++ ) {
-        infowindows[j].close();
-    }   
-    markers = [];
-    infowindows= [];
-    
-}
-
-
-  function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) { 
-      function deg2rad(deg) { 
-        return deg * (Math.PI/180) 
-      } 
-      var R = 6371; // Radius of the earth in km 
-      var dLat = deg2rad(lat2-lat1); // deg2rad below 
-      var dLon = deg2rad(lng2-lng1); 
-      var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); var d = R * c; // Distance in km 
-      return (d*1000).toFixed(0); 
-  }
-
-    </script>
+  </script>
 
   </body>
 </html>

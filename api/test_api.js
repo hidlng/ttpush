@@ -59,6 +59,55 @@ app.post('/userlist', function(req, res) {
 });
 
 
+app.get('/getNowVersion', function(req, res) {
+	pool.getConnection(function(err,connection){
+		var pushSql = `select * from tanggodb.app_version_mg`;
+		
+        var query = connection.query(pushSql, function (err, rows) {
+            if(err){
+        		console.log(err);
+        		connection.release();
+                res.send(500, 'error');
+                return;
+            }
+
+			connection.release();
+			res.json(rows);
+        });
+    });
+});
+
+app.get('/getHiddenLocation', async function(req, res) {
+	const longitude = 0;
+	const latitude = 0;
+	const radius = 20000; // 20000 킬로미터
+	// "hiddenList" 키에 저장된 모든 지리 공간 데이터 검색
+	redisClient.georadius("hiddenList", longitude, latitude, radius, "km", 'WITHCOORD', (err, data) => {
+		if (err) throw err;
+		console.log(data); // 검색 결과 출력
+		res.json(data);
+	});
+});
+
+
+app.get('/updateVersion', function(req, res) {
+	pool.getConnection(function(err,connection){
+		var pushSql = `update tanggodb.app_version_mg set android = '${req.query.android}'`;
+		
+        var query = connection.query(pushSql, function (err, rows) {
+            if(err){
+        		console.log(err);
+        		connection.release();
+                res.send(500, 'error');
+                return;
+            }
+
+			connection.release();
+			res.json("ok");
+        });
+    });
+});
+
 
 app.post('/updateIcon', function(req, res) {
 	pool.getConnection(function(err,connection){
