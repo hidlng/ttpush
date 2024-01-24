@@ -91,7 +91,7 @@ module.exports = function( _server ) {
 			await redisClient.georadius("hiddenList", lng, lat, 500, "m", async function (err, data) {
 				console.log(data);
 				var sql = `
-					SELECT * FROM tanggodb.event_sche WHERE u_id = ${my_user_id} Limit 1;
+					SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
 				`
 				var result = await executeQuery(pool, sql, []);
 				if( result.length == 0 ) {
