@@ -7,7 +7,6 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body style="padding:0;background-color: black;" >
-    <img src="/images/logo7.png" >
     <select name="userlist" id="userlist"></select>
     <select name="userlist2" id="userlist2"></select>
     <input type="text" id="content" name="content"/>
@@ -51,6 +50,34 @@
 	//Call list
 	getUserList();
     getGpsList();
+
+    const randomCoordinates = getRandomCoordinates(5);
+
+
+
+    function getRandomCoordinates(numberOfCoordinates) {
+    const coordinates = [];
+    for (let i = 0; i < numberOfCoordinates; i++) {
+        const latitude = 33 + Math.random() * (38 - 33);
+        const longitude = 126 + Math.random() * (129 - 126);
+        coordinates.push({ latitude, longitude });
+
+        var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        markers.push(marker);
+        marker.setMap(map);
+
+    }
+    return coordinates;
+}
+
+
 
     function calculation() {
       var user1 = $('#userlist').val();

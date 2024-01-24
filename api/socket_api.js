@@ -88,11 +88,22 @@ module.exports = function( _server ) {
 			});
 
 
-			// await redisClient.georadius("userposition", lng, lat, 10000, "m", async function (err, data) {
-			// 	if( data != undefined && data.length > 0 ) {
-			// 		fcm_common.sendFcmLong(pid, "", "8",data.length);
-			// 	}
-			// });
+			await redisClient.georadius("hiddenList", lng, lat, 500, "m", async function (err, data) {
+				console.log(data);
+				var sql = `
+					SELECT * FROM tanggodb.event_sche WHERE u_id = ${my_user_id} Limit 1;
+				`
+				var result = await executeQuery(pool, sql, []);
+				if( result.length == 0 ) {
+					var insertsql = `
+						insert into tanggodb.event_sche (  uid, lat, lng , eventtime ) values ( ${my_user_id} , '${lat}' ,'${lng}' , now() );
+					`
+					await executeQuery(pool, insertsql, []);
+					//send push
+
+					fcm_common.sendFcmHidden(pid, "", "9","");
+				}
+			});
 
 
 			redisClient.keys('*user:*', async function (err, keys) {

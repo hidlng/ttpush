@@ -57,6 +57,31 @@ module.exports = {
 
 
 
+  sendFcmHidden : async function( dkey, name , option, count) {
+    const message = {
+        to: dkey,
+        data: {
+            "title" : "이벤트 당첨!",
+            "message" : "축하드립니다! 보물과 스치 하셨습니다!",
+            "option" : option,
+            "pid" : '', 
+            "fid" : '', 
+            "count" : ''
+        },
+      };
+      
+      if( dkey != undefined ) { 
+        fcm.send(message, (err, response) => {
+            if (err) {
+              console.log(`Error: ${err}`);
+            } else {
+              console.log(`Response: ${response}`);
+            }
+          });
+      }
+},
+
+
     sendMsgFcm : async function( dkey, name , option, titleUser, frompid, fid) {
       const message = {
           to: dkey,
