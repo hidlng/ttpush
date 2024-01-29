@@ -88,22 +88,22 @@ module.exports = function( _server ) {
 			});
 
 
-			await redisClient.georadius("hiddenList", lng, lat, 500, "m", async function (err, data) {
-				console.log(data);
-				var sql = `
-					SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
-				`
-				var result = await executeQuery(pool, sql, []);
-				if( result.length == 0 ) {
-					var insertsql = `
-						insert into tanggodb.event_sche (  uid, lat, lng , eventtime ) values ( ${my_user_id} , '${lat}' ,'${lng}' , now() );
-					`
-					await executeQuery(pool, insertsql, []);
-					//send push
+			// await redisClient.georadius("hiddenList", lng, lat, 500, "m", async function (err, data) {
+			// 	console.log(data);
+			// 	var sql = `
+			// 		SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
+			// 	`
+			// 	var result = await executeQuery(pool, sql, []);
+			// 	if( result.length == 0 ) {
+			// 		var insertsql = `
+			// 			insert into tanggodb.event_sche (  uid, lat, lng , eventtime ) values ( ${my_user_id} , '${lat}' ,'${lng}' , now() );
+			// 		`
+			// 		await executeQuery(pool, insertsql, []);
+			// 		//send push
 
-					fcm_common.sendFcmHidden(pid, "", "9","");
-				}
-			});
+			// 		fcm_common.sendFcmHidden(pid, "", "9","");
+			// 	}
+			// });
 
 
 			redisClient.keys('*user:*', async function (err, keys) {
