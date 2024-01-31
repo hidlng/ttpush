@@ -274,14 +274,43 @@ app.get('/enteranceFriend', async function(req, res) {
 			console.log("*****************************");
 			console.log("*****************************");
 			console.log("*****************************");
-			console.log(item);
+			console.log(item.seq);
+			console.log(item.nickname);
+			console.log(item.car_number);
 			console.log("*****************************");
 			console.log("*****************************");
 			console.log("*****************************");
 			console.log("*****************************");
 			console.log("*****************************");
 
-			fcm_common.sendFcm(item.pid, req.query.myName, "3");
+
+			redisClient.keys('*user:*', async function (err, keys) {
+				if (err) {
+					console.log(err);
+					return;
+				};
+
+				console.log( "keys length = " + keys.length );
+				if( keys != undefined && keys.length > 0 ) {
+					for( var i = 0; i < keys.length; i++ ) {
+						var d = keys[i];
+						var userid = d.substring(5);
+
+
+						var user = await redisClient.v4.get(`user:${userid}`); 
+							var userJson = await JSON.parse(user);
+							var dis_pid = userJson.pid;
+
+
+
+						if( item.seq != userid ) {
+							//fcm_common.sendFcm(dis_pid, req.query.myName, "3");
+						}
+					}
+				}
+			});
+
+			
 		});
 	}
 });
