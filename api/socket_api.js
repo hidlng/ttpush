@@ -94,6 +94,7 @@ module.exports = function( _server ) {
 				console.log('************************');
 				console.log('************************');
 				console.log('************************');
+				console.log('***********hiddenListhiddenListhiddenList*************');
 				console.log(data);
 				console.log('************************');
 				console.log('************************');
