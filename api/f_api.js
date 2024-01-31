@@ -301,7 +301,7 @@ app.get('/enteranceFriend', async function(req, res) {
 							var userJson = await JSON.parse(user);
 							var dis_pid = userJson.pid;
 
-
+						console.log( item.seq + ' / ' + userid );
 
 						if( item.seq != userid ) {
 							//fcm_common.sendFcm(dis_pid, req.query.myName, "3");
