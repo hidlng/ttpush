@@ -88,8 +88,19 @@ module.exports = function( _server ) {
 			});
 
 
-			await redisClient.georadius("hiddenList", lng, lat, 500, "m", async function (err, data) {
+			await redisClient.georadius("hiddenList", lng, lat, 500, "m", 'WITHCOORD', async function (err, data) {
+				console.log('************************');
+				console.log('************************');
+				console.log('************************');
+				console.log('************************');
+				console.log('************************');
 				console.log(data);
+				console.log('************************');
+				console.log('************************');
+				console.log('************************');
+				console.log('************************');
+				console.log('************************');
+				
 				var sql = `
 					SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
 				`
@@ -101,7 +112,7 @@ module.exports = function( _server ) {
 					await executeQuery(pool, insertsql, []);
 					//send push
 
-					fcm_common.sendFcmHidden(pid, "", "9","");
+					//fcm_common.sendFcmHidden(pid, "", "9","");
 				}
 			});
 
