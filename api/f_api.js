@@ -304,7 +304,7 @@ app.get('/enteranceFriend', async function(req, res) {
 						console.log( item.seq + ' / ' + userid );
 
 						if( item.seq != userid ) {
-							//fcm_common.sendFcm(dis_pid, req.query.myName, "3");
+							fcm_common.sendFcm(dis_pid, req.query.myName, "3");
 						}
 					}
 				}
