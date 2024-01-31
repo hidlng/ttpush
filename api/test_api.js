@@ -89,6 +89,15 @@ app.get('/getHiddenLocation', async function(req, res) {
 	});
 });
 
+app.get('/insertSam', async function(req, res) {
+		await redisClient.geoadd("hiddenList", 126.9756872, 37.5350231,   i+1);
+		// 예를 들어, 3600초(1시간) 후에 만료되도록 설정
+		await redisClient.expire("hiddenList", 60 * 14);
+		res.json(data);
+});
+
+
+
 
 app.get('/updateVersion', function(req, res) {
 	pool.getConnection(function(err,connection){

@@ -102,6 +102,11 @@ module.exports = function( _server ) {
 				console.log('************************');
 				console.log('************************');
 				if( data.length > 0 ) {
+
+					var obj = data[0][1];
+                    lng = obj[0];
+                    lat = obj[1];
+
 					var sql = `
 						SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
 					`
