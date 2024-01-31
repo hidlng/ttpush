@@ -107,18 +107,25 @@ module.exports = function( _server ) {
                     lng = obj[0];
                     lat = obj[1];
 
-					var sql = `
-						SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
+					var countSql = `
+						SELECT * FROM tanggodb.event_sche;
 					`
-					var result = await executeQuery(pool, sql, []);
-					if( result.length == 0 ) {
-						var insertsql = `
-							insert into tanggodb.event_sche (  uid, lat, lng , eventtime ) values ( ${my_user_id} , '${lat}' ,'${lng}' , now() );
-						`
-						await executeQuery(pool, insertsql, []);
-						//send push
+					var resultCount = await executeQuery(pool, countSql, []);
 
-						fcm_common.sendFcmHidden(pid, "", "9","");
+					if( resultCount.length < 11 ) {
+						var sql = `
+						SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
+						`
+						var result = await executeQuery(pool, sql, []);
+						if( result.length == 0 ) {
+							var insertsql = `
+								insert into tanggodb.event_sche (  uid, lat, lng , eventtime ) values ( ${my_user_id} , '${lat}' ,'${lng}' , now() );
+							`
+							await executeQuery(pool, insertsql, []);
+							//send push
+
+							fcm_common.sendFcmHidden(pid, "", "9","");
+						}
 					}
 				}
 
