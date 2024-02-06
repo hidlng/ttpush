@@ -88,48 +88,48 @@ module.exports = function( _server ) {
 			});
 
 
-			await redisClient.georadius("hiddenList", lng, lat, 500, "m", 'WITHCOORD', async function (err, data) {
-				console.log('************************');
-				console.log('************************');
-				console.log('************************');
-				console.log('************************');
-				console.log('************************');
-				console.log('***********hiddenListhiddenListhiddenList*************');
-				console.log(data);
-				console.log('************************');
-				console.log('************************');
-				console.log('************************');
-				console.log('************************');
-				console.log('************************');
-				if( data.length > 0 ) {
+			// await redisClient.georadius("hiddenList", lng, lat, 500, "m", 'WITHCOORD', async function (err, data) {
+			// 	console.log('************************');
+			// 	console.log('************************');
+			// 	console.log('************************');
+			// 	console.log('************************');
+			// 	console.log('************************');
+			// 	console.log('***********hiddenListhiddenListhiddenList*************');
+			// 	console.log(data);
+			// 	console.log('************************');
+			// 	console.log('************************');
+			// 	console.log('************************');
+			// 	console.log('************************');
+			// 	console.log('************************');
+			// 	if( data.length > 0 ) {
 
-					var obj = data[0][1];
-                    lng = obj[0];
-                    lat = obj[1];
+			// 		var obj = data[0][1];
+            //         lng = obj[0];
+            //         lat = obj[1];
 
-					var countSql = `
-						SELECT * FROM tanggodb.event_sche;
-					`
-					var resultCount = await executeQuery(pool, countSql, []);
+			// 		var countSql = `
+			// 			SELECT * FROM tanggodb.event_sche;
+			// 		`
+			// 		var resultCount = await executeQuery(pool, countSql, []);
 
-					if( resultCount.length < 11 ) {
-						var sql = `
-						SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
-						`
-						var result = await executeQuery(pool, sql, []);
-						if( result.length == 0 ) {
-							var insertsql = `
-								insert into tanggodb.event_sche (  uid, lat, lng , eventtime ) values ( ${my_user_id} , '${lat}' ,'${lng}' , now() );
-							`
-							await executeQuery(pool, insertsql, []);
-							//send push
+			// 		if( resultCount.length < 11 ) {
+			// 			var sql = `
+			// 			SELECT * FROM tanggodb.event_sche WHERE uid = ${my_user_id} Limit 1;
+			// 			`
+			// 			var result = await executeQuery(pool, sql, []);
+			// 			if( result.length == 0 ) {
+			// 				var insertsql = `
+			// 					insert into tanggodb.event_sche (  uid, lat, lng , eventtime ) values ( ${my_user_id} , '${lat}' ,'${lng}' , now() );
+			// 				`
+			// 				await executeQuery(pool, insertsql, []);
+			// 				//send push
 
-							fcm_common.sendFcmHidden(pid, "", "9","");
-						}
-					}
-				}
+			// 				fcm_common.sendFcmHidden(pid, "", "9","");
+			// 			}
+			// 		}
+			// 	}
 
-			});
+			// });
 
 
 			redisClient.keys('*user:*', async function (err, keys) {
