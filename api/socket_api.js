@@ -14,7 +14,7 @@ module.exports = function( _server ) {
 	// 연결된 모든 클라이언트에게 하트비트 메시지를 보내는 함수
 	function sendHeartbeat() {
 		wss.clients.forEach(function each(client) {
-			if (client.readyState === WebSocket.OPEN) {
+			if (client.readyState === wsModule.OPEN) {
 				client.send('heartbeat');
 			}
 		});
