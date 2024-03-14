@@ -10,6 +10,21 @@ const geo = require('georedis').initialize(redisClient);
 
 module.exports = function( _server ) {
 	var wss = new wsModule.Server({server:_server});
+
+	// 연결된 모든 클라이언트에게 하트비트 메시지를 보내는 함수
+	function sendHeartbeat() {
+		wss.clients.forEach(function each(client) {
+			if (client.readyState === WebSocket.OPEN) {
+				client.send('heartbeat');
+			}
+		});
+	}
+
+	// 하트비트를 보내는 간격 설정 (예: 30000ms = 30초)
+	const heartbeatInterval = 30000; // 30초마다
+
+	// setInterval을 사용하여 지정된 간격으로 하트비트를 보냄
+	setInterval(sendHeartbeat, heartbeatInterval);
 	
 	wss.on('connection', async function( ws, req ) {
 		ws.on('message', async function(message){
