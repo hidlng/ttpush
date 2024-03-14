@@ -79,7 +79,6 @@ fcm_common.initFcm();
 
 //7.시 알람
 schedule.scheduleJob({hour: 7, minute: 0}, async function(){
-
   const mentArr = [
     '길 위에서의 동료와 함께 달려보세요. 탱고',
     '오늘도 스치하기 좋은 날입니다. 탱고',
@@ -89,11 +88,11 @@ schedule.scheduleJob({hour: 7, minute: 0}, async function(){
 
   ];
   const randomMent = mentArr[Math.floor(Math.random() * mentArr.length)];
-  var checkSql = ` SELECT a.pid FROM tanggodb.userinfo`;
-	var chckData = await executeQuery(pool2, checkSql, []);
+  var checkSql = ` SELECT pid FROM tanggodb.userinfo`;
+	var chckData = await executeQuery(pool, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			fcm_common.sendFcm(item.pid, randomMent, "1");
+			fcm_common.sendFcm(item.pid, randomMent, "4");
 		});
   }
 });
@@ -109,11 +108,11 @@ schedule.scheduleJob({hour: 10, minute: 0}, async function(){
 
   ];
   const randomMent = mentArr[Math.floor(Math.random() * mentArr.length)];
-  var checkSql = ` SELECT a.pid FROM tanggodb.userinfo`;
-	var chckData = await executeQuery(pool2, checkSql, []);
+  var checkSql = ` SELECT pid FROM tanggodb.userinfo`;
+	var chckData = await executeQuery(pool, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			fcm_common.sendFcm(item.pid, randomMent, "1");
+			fcm_common.sendFcm(item.pid, randomMent, "4");
 		});
   }
 });
@@ -129,11 +128,11 @@ schedule.scheduleJob({hour: 14, minute: 0}, async function(){
 
   ];
   const randomMent = mentArr[Math.floor(Math.random() * mentArr.length)];
-  var checkSql = ` SELECT a.pid FROM tanggodb.userinfo`;
-	var chckData = await executeQuery(pool2, checkSql, []);
+  var checkSql = ` SELECT pid FROM tanggodb.userinfo`;
+	var chckData = await executeQuery(pool, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			fcm_common.sendFcm(item.pid, randomMent, "1");
+			fcm_common.sendFcm(item.pid, randomMent, "4");
 		});
   }
 });
@@ -149,11 +148,11 @@ schedule.scheduleJob({hour: 18, minute: 0}, async function(){
 
   ];
   const randomMent = mentArr[Math.floor(Math.random() * mentArr.length)];
-  var checkSql = ` SELECT a.pid FROM tanggodb.userinfo`;
-	var chckData = await executeQuery(pool2, checkSql, []);
+  var checkSql = ` SELECT pid FROM tanggodb.userinfo`;
+	var chckData = await executeQuery(pool, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			fcm_common.sendFcm(item.pid, randomMent, "1");
+			fcm_common.sendFcm(item.pid, randomMent, "4");
 		});
   }
 });
