@@ -92,7 +92,7 @@ schedule.scheduleJob({hour: 7, minute: 0}, async function(){
 	var chckData = await executeQuery(pool, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			fcm_common.sendFcm(item.pid, randomMent, "4");
+		//	fcm_common.sendFcm(item.pid, randomMent, "4");
 		});
   }
 });
@@ -112,7 +112,7 @@ schedule.scheduleJob({hour: 10, minute: 0}, async function(){
 	var chckData = await executeQuery(pool, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			fcm_common.sendFcm(item.pid, randomMent, "4");
+		//	fcm_common.sendFcm(item.pid, randomMent, "4");
 		});
   }
 });
@@ -132,7 +132,7 @@ schedule.scheduleJob({hour: 14, minute: 0}, async function(){
 	var chckData = await executeQuery(pool, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			fcm_common.sendFcm(item.pid, randomMent, "4");
+		//	fcm_common.sendFcm(item.pid, randomMent, "4");
 		});
   }
 });
@@ -152,7 +152,7 @@ schedule.scheduleJob({hour: 18, minute: 0}, async function(){
 	var chckData = await executeQuery(pool, checkSql, []);
 	if( chckData.length > 0 ) {
 		chckData.forEach(function(item) {
-			fcm_common.sendFcm(item.pid, randomMent, "4");
+			//fcm_common.sendFcm(item.pid, randomMent, "4");
 		});
   }
 });
